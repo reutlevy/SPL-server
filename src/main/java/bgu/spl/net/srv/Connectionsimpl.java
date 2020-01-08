@@ -1,8 +1,6 @@
-package bgu.spl.net.impl.stomp;
+package bgu.spl.net.srv;
 
-import bgu.spl.net.srv.Connections;
-
-public class StompConnections implements Connections {
+public class Connectionsimpl implements Connections {
     @Override
     public boolean send(int connectionId, Object msg) {
         return false;
