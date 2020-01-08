@@ -1,6 +1,6 @@
 package bgu.spl.net.srv;
 
-public class Connectionsimpl implements Connections {
+public class Connectionsimpl<T> implements Connections<T> {
     @Override
     public boolean send(int connectionId, Object msg) {
         return false;

@@ -4,7 +4,29 @@ import java.util.HashMap;
 
 public class CONNECT extends StompFrame {
 
+    private String acceptversion;
+    private String host;
+    private String login;
+    private String passcode;
+    private HashMap<String,String> map;
+    private String body;
+
     public CONNECT(String name, HashMap<String, String> message) {
         super(name, message);
+        this.body = message.getOrDefault("body", "");
+        this.acceptversion=message.get("accept-version");
+        this.host=message.get("host");
+        this.login=message.get("login");
+        this.passcode=message.get("passcode");
+    }
+
+    @Override
+    public String getType(){
+        return "CONNECT";
+    }
+
+    @Override
+    public HashMap getHashMap(){
+        return map;
     }
 }
