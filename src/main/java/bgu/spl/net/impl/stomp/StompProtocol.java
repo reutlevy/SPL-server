@@ -10,17 +10,19 @@ import java.util.HashMap;
 public class StompProtocol implements StompMessagingProtocol<StompFrame> {
 
     private Boolean terminate=false;
-    private Connectionsimpl<String> connections;
+    private Connectionsimpl<StompFrame> connections;
     private int id;
     private StompFrame response;
     private HashMap<String,String> message;
 
-    public void start(int connectionId, Connections<String> connections){
+    @Override
+    public void start(int connectionId, Connections<StompFrame> connections){
       this.id=connectionId;
-      this.connections= (Connectionsimpl<String>)connections;
+      this.connections= connections;
       message=new HashMap<String, String>();
     }
 
+    @Override
     public void process(StompFrame frame){
         frame.getType();
     }
