@@ -1,6 +1,7 @@
 package bgu.spl.net.srv;
 
 import bgu.spl.net.impl.stomp.StompFrame;
+import bgu.spl.net.impl.stomp.User;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -11,12 +12,14 @@ public class DataBase<T> {
 
     private Connectionsimpl<StompFrame> connections = null;
     private ConcurrentHashMap<String, ConcurrentLinkedQueue<StompFrame>> Genres;
-    private LinkedList<User> users;
+    private LinkedList<User> loginusers;
+    private LinkedList<User> activeusers;
     private HashMap<Integer, ConnectionHandler<T>> clients;
 
     private DataBase(){
        Genres=new ConcurrentHashMap<>();
-       users=new LinkedList<>();
+        loginusers=new LinkedList<>();
+        activeusers=new LinkedList<>();
        clients=new HashMap<>();
     }
 
@@ -31,4 +34,14 @@ public class DataBase<T> {
         if (this.connections == null)
             this.connections = connections;
     }
+
+    public boolean checklogin(User user){
+        return false;
+    }
+
+    public boolean checkexist(User user){
+        return false;
+    }
+
+   
 }
