@@ -12,11 +12,7 @@ public abstract class StompFrame {
         this.messages=message;
     }
 
-    public String getType(){
-        return type;
-    }
+    abstract String getType();
 
-    public HashMap getHashMap(){
-        return messages;
-    }
+    abstract HashMap getHashMap();
 }

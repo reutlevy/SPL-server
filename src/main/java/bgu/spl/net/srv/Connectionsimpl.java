@@ -7,11 +7,10 @@ public class Connectionsimpl<T> implements Connections<T> {
 
     private final HashMap<Integer, ConnectionHandler<T>> clients = new HashMap<>();
     private HashMap<String, BlockingQueue<Integer>> genres = new HashMap<>();
-    private Object Integer;
     //  private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     @Override
-    public boolean send(int connectionId, Object msg) {
+    public boolean send(int connectionId, T msg) {
     //    try {
           //  lock.readLock().lock();
             ConnectionHandler<T> handler = clients.get(connectionId);
@@ -24,7 +23,7 @@ public class Connectionsimpl<T> implements Connections<T> {
      //   }
 
     @Override
-    public void send(String genre, Object msg) {
+    public void send(String genre, T msg) {
        //  lock.readLock().lock();
         if(genres.containsKey(genre)){
             for(int i=0; i<genres.get(genre).size(); i++){
