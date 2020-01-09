@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class DataBase<T> {
 
     private Connectionsimpl<StompFrame> connections = null;
-    private ConcurrentHashMap<String, ConcurrentLinkedQueue<StompFrame>> Genres;
+    private ConcurrentHashMap<String, ConcurrentLinkedQueue<User>> Genres;
     private LinkedList<User> loginusers;
     private LinkedList<User> activeusers;
     private HashMap<Integer, ConnectionHandler<T>> clients;
@@ -36,12 +36,33 @@ public class DataBase<T> {
     }
 
     public boolean checklogin(User user){
-        return false;
+        return loginusers.contains(user);
     }
 
     public boolean checkexist(User user){
-        return false;
+        return activeusers.contains(user);
     }
 
-   
+    public void joinReadingClub(User user,String genres){
+        if(Genres.containsKey(genres)){
+            ConcurrentLinkedQueue<User> users=Genres.get(genres);
+            users.add(user);
+        }
+        else {
+            ConcurrentLinkedQueue<User> users=new ConcurrentLinkedQueue<>();
+            users.add(user);
+            Genres.put(genres,users);
+        }
+    }
+
+    public void ExitReadingClub(User user,String genre){
+        if(Genres.containsKey(genre)){
+           ConcurrentLinkedQueue<User> users=Genres.get(genre);
+           if(users.contains(user)){
+               users.remove(user);
+           }
+        }
+    }
+
+    
 }
