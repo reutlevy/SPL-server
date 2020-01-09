@@ -6,11 +6,13 @@ public class UNSUBSCRIBE extends StompFrame {
 
     private String id;
     private HashMap<String,String> message;
+    private Boolean isError;
 
     public UNSUBSCRIBE(String name, HashMap<String,String> message){
         super(name,message);
         this.id=message.get("id");
         this.message=message;
+        this.isError=false;
     }
 
     @Override
@@ -21,5 +23,10 @@ public class UNSUBSCRIBE extends StompFrame {
     @Override
     public HashMap getHashMap(){
         return message;
+    }
+
+    @Override
+    public Boolean getIsError(){
+        return isError;
     }
 }

@@ -10,6 +10,7 @@ public class CONNECT extends StompFrame {
     private String passcode;
     private HashMap<String,String> map;
     private String body;
+    private Boolean isError;
 
     public CONNECT(String name, HashMap<String, String> message) {
         super(name, message);
@@ -18,6 +19,7 @@ public class CONNECT extends StompFrame {
         this.host=message.get("host");
         this.login=message.get("login");
         this.passcode=message.get("passcode");
+        this.isError=false;
     }
 
     @Override
@@ -28,5 +30,10 @@ public class CONNECT extends StompFrame {
     @Override
     public HashMap getHashMap(){
         return map;
+    }
+
+    @Override
+    public Boolean getIsError(){
+        return isError;
     }
 }

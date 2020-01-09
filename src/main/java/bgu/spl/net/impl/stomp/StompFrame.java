@@ -19,4 +19,8 @@ public abstract class StompFrame {
     public HashMap getHashMap(){
         return messages;
     }
+
+    public Boolean getIsError(){
+        return false;
+    }
 }
