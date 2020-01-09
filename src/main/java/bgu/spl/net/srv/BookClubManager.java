@@ -12,8 +12,8 @@ public class BookClubManager<T> {
 
     private Connectionsimpl<StompFrame> connections = null;
     private ConcurrentHashMap<String, ConcurrentLinkedQueue<Integer>> Genres;
-    private LinkedList<User> loginusers;
-    private LinkedList<User> activeusers;
+    private LinkedList<Integer> loginusers;
+    private LinkedList<Integer> activeusers;
    // private HashMap<Integer, ConnectionHandler<T>> clients;
 
     private BookClubManager(){
@@ -39,11 +39,11 @@ public class BookClubManager<T> {
     }
 
     public boolean checklogin(User user){
-        return loginusers.contains(user);
+        return loginusers.contains(user.getConnectionId());
     }
 
     public boolean checkexist(User user){
-        return activeusers.contains(user);
+        return activeusers.contains(user.getConnectionId());
     }
 
     public void joinReadingClub(User user,String genres){
@@ -66,7 +66,5 @@ public class BookClubManager<T> {
            }
         }
     }
-
-
 
 }
