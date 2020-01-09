@@ -22,7 +22,7 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
     }
 
     public void process(StompFrame frame){
-        frame.getType();
+        String type=frame.getType();
     }
 
     public boolean shouldTerminate(){

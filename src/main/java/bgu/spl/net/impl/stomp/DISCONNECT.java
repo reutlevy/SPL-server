@@ -6,11 +6,13 @@ public class DISCONNECT extends StompFrame {
 
     private String receipt;
     private HashMap<String,String> message;
+    private Boolean isError;
 
     public DISCONNECT(String name, HashMap<String, String> message) {
         super(name, message);
         this.receipt=message.get("receipt");
         this.message=message;
+        this.isError=false;
     }
 
     @Override
@@ -21,5 +23,10 @@ public class DISCONNECT extends StompFrame {
     @Override
     public HashMap getHashMap(){
         return message;
+    }
+
+    @Override
+    public Boolean getIsError(){
+        return isError;
     }
 }

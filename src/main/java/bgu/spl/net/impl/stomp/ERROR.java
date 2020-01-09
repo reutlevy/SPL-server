@@ -8,6 +8,7 @@ public class ERROR extends StompFrame {
     private String body;
     private String message;
     private HashMap<String,String> messages;
+    private Boolean isError;
 
     public ERROR(String name, HashMap<String, String> message) {
         super(name, message);
@@ -15,6 +16,7 @@ public class ERROR extends StompFrame {
         this.body = message.getOrDefault("body", "");
         this.message=message.get("message");
         this.messages=message;
+        this.isError=false;
     }
 
     @Override
@@ -25,5 +27,10 @@ public class ERROR extends StompFrame {
     @Override
     public HashMap getHashMap(){
         return messages;
+    }
+
+    @Override
+    public Boolean getIsError(){
+        return isError;
     }
 }
