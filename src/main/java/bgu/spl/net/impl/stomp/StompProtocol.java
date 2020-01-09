@@ -7,7 +7,7 @@ import bgu.spl.*;
 
 import java.util.HashMap;
 
-public class StompProtocol<StompFrame> implements StompMessagingProtocol<StompFrame> {
+public class StompProtocol implements StompMessagingProtocol<StompFrame> {
 
     private Boolean terminate=false;
     private Connectionsimpl<String> connections;
@@ -22,6 +22,7 @@ public class StompProtocol<StompFrame> implements StompMessagingProtocol<StompFr
     }
 
     public void process(StompFrame frame){
+        frame.getType();
     }
 
     public boolean shouldTerminate(){
