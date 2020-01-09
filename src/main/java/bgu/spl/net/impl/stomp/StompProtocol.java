@@ -22,7 +22,6 @@ public class StompProtocol<StompFrame> implements StompMessagingProtocol<StompFr
     }
 
     public void process(StompFrame frame){
-      //  response=new StompFrame();
     }
 
     public boolean shouldTerminate(){

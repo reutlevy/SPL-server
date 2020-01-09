@@ -2,7 +2,7 @@ package bgu.spl.net.impl.stomp;
 
 import java.util.HashMap;
 
-public abstract class StompFrame {
+abstract class StompFrame {
 
     private String type;
     private HashMap messages;
@@ -12,7 +12,7 @@ public abstract class StompFrame {
         this.messages=message;
     }
 
-    abstract String getType();
+    abstract public String getType();
 
-    abstract HashMap getHashMap();
+    abstract public HashMap getHashMap();
 }
