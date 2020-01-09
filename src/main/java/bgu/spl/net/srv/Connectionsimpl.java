@@ -13,10 +13,14 @@ public class Connectionsimpl<T> implements Connections<T> {
     public boolean send(int connectionId, T msg) {
     //    try {
           //  lock.readLock().lock();
-            ConnectionHandler<T> handler = clients.get(connectionId);
-           // lock.readLock().unlock();
-            handler.send((T) msg);
-            return true;
+        boolean answer=false;
+            if(clients.containsKey(connectionId)) {
+                ConnectionHandler<T> handler = clients.get(connectionId);
+                // lock.readLock().unlock();
+                handler.send((T) msg);
+                answer = true;
+            }
+            return false;
         }
       //  catch (Exception e) {
          //   return false;
@@ -38,6 +42,7 @@ public class Connectionsimpl<T> implements Connections<T> {
     public void disconnect(int connectionId) {
         //try {
     //    lock.writeLock().lock();
+        if (clients.containsKey(connectionId))
         clients.remove(connectionId);
     //    lock.writeLock().unlock();
     }
