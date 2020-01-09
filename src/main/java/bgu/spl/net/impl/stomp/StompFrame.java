@@ -2,7 +2,7 @@ package bgu.spl.net.impl.stomp;
 
 import java.util.HashMap;
 
-public class StompFrame {
+public abstract class StompFrame {
 
     private String type;
     private HashMap messages;
