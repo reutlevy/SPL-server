@@ -2,6 +2,8 @@ package bgu.spl.net.srv;
 
 import java.util.HashMap;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Connectionsimpl<T> implements Connections<T> {
 
@@ -36,7 +38,7 @@ public class Connectionsimpl<T> implements Connections<T> {
     public void send(String genre, T msg) {
        //  lock.readLock().lock();
         if(bookClubManager.getgenres().containsKey(genre)){
-            for(int i=0; i<bookClubManager.getgenres().get(genre).size(); i++){
+            for(int i=0; i<bookClubManager.getgenres().get(genre).s; i++){
                 ConnectionHandler<T> handler = clients.get(i);
                 handler.send((T)msg);
             }

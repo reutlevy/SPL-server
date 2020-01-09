@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class BookClubManager<T> {
 
     private Connectionsimpl<StompFrame> connections = null;
-    private ConcurrentHashMap<String, ConcurrentLinkedQueue<User>> Genres;
+    private ConcurrentHashMap<String, ConcurrentLinkedQueue<Integer>> Genres;
     private LinkedList<User> loginusers;
     private LinkedList<User> activeusers;
    // private HashMap<Integer, ConnectionHandler<T>> clients;
@@ -29,7 +29,7 @@ public class BookClubManager<T> {
         return Holder.dataBase;
     }
 
-    public ConcurrentHashMap getgenres(){
+    public ConcurrentHashMap<String,ConcurrentLinkedQueue<Integer>> getgenres(){
        return Genres;
     }
 
@@ -48,19 +48,19 @@ public class BookClubManager<T> {
 
     public void joinReadingClub(User user,String genres){
         if(Genres.containsKey(genres)){
-            ConcurrentLinkedQueue<User> users=Genres.get(genres);
-            users.add(user);
+            ConcurrentLinkedQueue<Integer> users=Genres.get(genres);
+            users.add(user.getConnectionId());
         }
         else {
-            ConcurrentLinkedQueue<User> users=new ConcurrentLinkedQueue<>();
-            users.add(user);
+            ConcurrentLinkedQueue<Integer> users=new ConcurrentLinkedQueue<>();
+            users.add(user.getConnectionId());
             Genres.put(genres,users);
         }
     }
 
     public void ExitReadingClub(User user,String genre){
         if(Genres.containsKey(genre)){
-           ConcurrentLinkedQueue<User> users=Genres.get(genre);
+           ConcurrentLinkedQueue<Integer> users=Genres.get(genre);
            if(users.contains(user)){
                users.remove(user);
            }
