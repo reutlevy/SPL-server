@@ -6,15 +6,21 @@ import java.util.concurrent.BlockingQueue;
 public class Connectionsimpl<T> implements Connections<T> {
 
     private final HashMap<Integer, ConnectionHandler<T>> clients = new HashMap<>();
-    private HashMap<String, BlockingQueue<Integer>> genres = new HashMap<>();
+   // private HashMap<String, BlockingQueue<Integer>> genres = new HashMap<>();
     //  private final ReadWriteLock lock = new ReentrantReadWriteLock();
+    public BookClubManager bookClubManager;
+
+    public Connectionsimpl(){
+        bookClubManager=BookClubManager.getInstance();
+    }
 
     @Override
     public boolean send(int connectionId, T msg) {
     //    try {
           //  lock.readLock().lock();
         boolean answer=false;
-            if(clients.containsKey(connectionId)) {
+
+            if(bookClubManager.getgenres().containsKey(connectionId)) {
                 ConnectionHandler<T> handler = clients.get(connectionId);
                 // lock.readLock().unlock();
                 handler.send((T) msg);
@@ -29,8 +35,8 @@ public class Connectionsimpl<T> implements Connections<T> {
     @Override
     public void send(String genre, T msg) {
        //  lock.readLock().lock();
-        if(genres.containsKey(genre)){
-            for(int i=0; i<genres.get(genre).size(); i++){
+        if(bookClubManager.getgenres().containsKey(genre)){
+            for(int i=0; i<bookClubManager.getgenres().get(genre).size(); i++){
                 ConnectionHandler<T> handler = clients.get(i);
                 handler.send((T)msg);
             }

@@ -8,26 +8,29 @@ import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class DataBase<T> {
+public class BookClubManager<T> {
 
     private Connectionsimpl<StompFrame> connections = null;
     private ConcurrentHashMap<String, ConcurrentLinkedQueue<User>> Genres;
     private LinkedList<User> loginusers;
     private LinkedList<User> activeusers;
-    private HashMap<Integer, ConnectionHandler<T>> clients;
+   // private HashMap<Integer, ConnectionHandler<T>> clients;
 
-    private DataBase(){
+    private BookClubManager(){
        Genres=new ConcurrentHashMap<>();
         loginusers=new LinkedList<>();
         activeusers=new LinkedList<>();
-       clients=new HashMap<>();
     }
 
     private static class Holder {
-        private static DataBase dataBase = new DataBase();
+        private static BookClubManager dataBase = new BookClubManager();
     }
-    public static DataBase getInstance() {
+    public static BookClubManager getInstance() {
         return Holder.dataBase;
+    }
+
+    public ConcurrentHashMap getgenres(){
+       return Genres;
     }
 
     public void initialConnections(Connectionsimpl<StompFrame> connections) {
@@ -64,5 +67,4 @@ public class DataBase<T> {
         }
     }
 
-    
 }

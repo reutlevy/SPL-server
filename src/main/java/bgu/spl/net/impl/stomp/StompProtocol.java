@@ -3,7 +3,7 @@ package bgu.spl.net.impl.stomp;
 import bgu.spl.net.api.StompMessagingProtocol;
 import bgu.spl.net.srv.Connections;
 import bgu.spl.net.srv.Connectionsimpl;
-import bgu.spl.net.srv.DataBase;
+import bgu.spl.net.srv.BookClubManager;
 
 import java.util.HashMap;
 
@@ -14,14 +14,14 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
     private int id;
     private StompFrame response;
     private HashMap<String,String> message;
-    private DataBase db;
+    private BookClubManager db;
 
     @Override
     public void start(int connectionId, Connections<StompFrame> connections){
       this.id=connectionId;
       this.connections= (Connectionsimpl<StompFrame>)connections;
       message=new HashMap<String, String>();
-      db=DataBase.getInstance();
+      db= BookClubManager.getInstance();
       db.initialConnections((Connectionsimpl<StompFrame>) connections);
     }
 
