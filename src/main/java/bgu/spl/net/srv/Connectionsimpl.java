@@ -38,7 +38,8 @@ public class Connectionsimpl<T> implements Connections<T> {
     public void send(String genre, T msg) {
        //  lock.readLock().lock();
         if(bookClubManager.getgenres().containsKey(genre)){
-            for(int i=0; i<bookClubManager.getgenres().get(genre).s; i++){
+            ConcurrentHashMap<String, ConcurrentLinkedQueue<Integer>> Genres=bookClubManager.getgenres();
+            for(int i=0; i<Genres.get(genre).size(); i++){
                 ConnectionHandler<T> handler = clients.get(i);
                 handler.send((T)msg);
             }

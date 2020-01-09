@@ -61,10 +61,12 @@ public class BookClubManager<T> {
     public void ExitReadingClub(User user,String genre){
         if(Genres.containsKey(genre)){
            ConcurrentLinkedQueue<Integer> users=Genres.get(genre);
-           if(users.contains(user)){
-               users.remove(user);
+           if(users.contains(user.getConnectionId())){
+               users.remove(user.getConnectionId());
            }
         }
     }
+
+
 
 }
