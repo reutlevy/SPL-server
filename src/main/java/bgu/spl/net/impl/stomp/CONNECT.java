@@ -25,9 +25,12 @@ public class CONNECT extends StompFrame {
         this.passcode=message.get("passcode");
         this.isError=false;
     }
-    public void process(StompFrame frame, Connectionsimpl<StompFrame> connections){
+    public void process(StompFrame frame, Connectionsimpl<StompFrame> connections, int id){
         BookClubManager bm = BookClubManager.getInstance();
-        connections.
+        // socket chacking
+        if (!bm.getExistusers().contains(id)){
+
+        }
 
 
 

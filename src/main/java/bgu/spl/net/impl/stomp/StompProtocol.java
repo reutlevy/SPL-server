@@ -28,6 +28,7 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
     @Override
     public void process(StompFrame frame){
         String type=frame.getType();
+        User currentUser = new User()
         HashMap<String,String> add=frame.getHashMap();
         if(type.equals("DISCONNECT")){
             terminate=true;
