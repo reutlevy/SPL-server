@@ -16,6 +16,10 @@ public class Connectionsimpl<T> implements Connections<T> {
         bookClubManager=BookClubManager.getInstance();
     }
 
+    public HashMap<Integer, ConnectionHandler<T>> getClients(){
+        return clients;
+    }
+
     @Override
     public boolean send(int connectionId, T msg) {
     //    try {

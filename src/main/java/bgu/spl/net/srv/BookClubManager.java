@@ -12,14 +12,14 @@ public class BookClubManager<T> {
 
     private Connectionsimpl<StompFrame> connections = null;
     private ConcurrentHashMap<String, ConcurrentLinkedQueue<Integer>> Genres;
-    private LinkedList<Integer> loginusers;
-    private LinkedList<Integer> activeusers;
-   // private HashMap<Integer, ConnectionHandler<T>> clients;
+    private LinkedList<Integer> logedinusers;
+    private LinkedList<Integer> existusers;
+    // private HashMap<Integer, ConnectionHandler<T>> clients;
 
     private BookClubManager(){
-       Genres=new ConcurrentHashMap<>();
-        loginusers=new LinkedList<>();
-        activeusers=new LinkedList<>();
+        Genres=new ConcurrentHashMap<>();
+        logedinusers=new LinkedList<>();
+        existusers=new LinkedList<>();
     }
 
     private static class Holder {
@@ -29,8 +29,16 @@ public class BookClubManager<T> {
         return Holder.dataBase;
     }
 
+    public LinkedList<Integer> getLogedinusers(){
+        return logedinusers;
+    }
+
+    public LinkedList<Integer> getExistusers(){
+        return existusers;
+    }
+
     public ConcurrentHashMap<String,ConcurrentLinkedQueue<Integer>> getgenres(){
-       return Genres;
+        return Genres;
     }
 
     public void initialConnections(Connectionsimpl<StompFrame> connections) {
@@ -39,11 +47,11 @@ public class BookClubManager<T> {
     }
 
     public boolean checklogin(User user){
-        return loginusers.contains(user.getConnectionId());
+        return logedinusers.contains(user.getConnectionId());
     }
 
     public boolean checkexist(User user){
-        return activeusers.contains(user.getConnectionId());
+        return existusers.contains(user.getConnectionId());
     }
 
     public void joinReadingClub(User user,String genres){
@@ -60,10 +68,10 @@ public class BookClubManager<T> {
 
     public void ExitReadingClub(User user,String genre){
         if(Genres.containsKey(genre)){
-           ConcurrentLinkedQueue<Integer> users=Genres.get(genre);
-           if(users.contains(user.getConnectionId())){
-               users.remove(user.getConnectionId());
-           }
+            ConcurrentLinkedQueue<Integer> users=Genres.get(genre);
+            if(users.contains(user.getConnectionId())){
+                users.remove(user.getConnectionId());
+            }
         }
     }
 

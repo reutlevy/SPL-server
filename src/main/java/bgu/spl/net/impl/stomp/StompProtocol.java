@@ -25,9 +25,14 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
       db.initialConnections((Connectionsimpl<StompFrame>) connections);
     }
 
+    public int getId(){
+        return id;
+    }
+
     @Override
     public void process(StompFrame frame){
         String type=frame.getType();
+        //User currentUser = new User();
         HashMap<String,String> add=frame.getHashMap();
         if(type.equals("DISCONNECT")){
             terminate=true;

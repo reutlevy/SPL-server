@@ -22,6 +22,7 @@ public class Reactor<T> implements Server<T> {
 
     private Thread selectorThread;
     private final ConcurrentLinkedQueue<Runnable> selectorTasks = new ConcurrentLinkedQueue<>();
+    private final Connectionsimpl<T> clients = new Connectionsimpl<>();
 
     public Reactor(
             int numThreads,
@@ -46,7 +47,11 @@ public class Reactor<T> implements Server<T> {
             serverSock.bind(new InetSocketAddress(port));
             serverSock.configureBlocking(false);
             serverSock.register(selector, SelectionKey.OP_ACCEPT);
-			System.out.println("Server started");
+			System.out.println("Server started-Reactor");
+
+            serverSock.bind(new InetSocketAddress(port));
+            serverSock.configureBlocking(false);
+            serverSock.register(selector, SelectionKey.OP_ACCEPT);
 
             while (!Thread.currentThread().isInterrupted()) {
 
@@ -105,7 +110,7 @@ public class Reactor<T> implements Server<T> {
 
     private void handleReadWrite(SelectionKey key) {
         @SuppressWarnings("unchecked")
-        NonBlockingConnectionHandler<T> handler = (NonBlockingConnectionHandler<T>) key.attachment();
+        final NonBlockingConnectionHandler<T> handler = (NonBlockingConnectionHandler<T>) key.attachment();
 
         if (key.isReadable()) {
             Runnable task = handler.continueRead();
