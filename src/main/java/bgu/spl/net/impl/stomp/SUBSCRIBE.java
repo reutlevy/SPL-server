@@ -6,15 +6,17 @@ public class SUBSCRIBE extends StompFrame {
 
     private String destination;
     private String id;
-    private String body;
+    private String receipt;
     private HashMap<String,String> message;
     private Boolean isError;
 
     public SUBSCRIBE(String name, HashMap<String,String> message){
         super(name,message);
-        this.destination=message.get("receipt-id");
-        this.body = message.getOrDefault("body", "");
         this.message=message;
+
+        this.destination=message.get("destination");
+        this.id = message.get("id");
+        this.receipt=message.get("receipt");
         this.isError=false;
     }
 

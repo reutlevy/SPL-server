@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class StompProtocol implements StompMessagingProtocol<StompFrame> {
 
@@ -21,7 +22,7 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
     private StompFrame response;
     private HashMap<String, String> message;
     private BookClubManager db;
-    private String counterOfI;
+    private String counterOfMsgId;
 
     @Override
     public void start(int connectionId, Connections<StompFrame> connections) {
@@ -30,7 +31,7 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
         message = new HashMap<String, String>();
         db = BookClubManager.getInstance();
         db.initialConnections((Connectionsimpl<StompFrame>) connections);
-        counterOfI = "";
+        counterOfMsgId = "";
     }
 
     public int getId() {
@@ -43,10 +44,9 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
         String type = frame.getType();
         HashMap<String, String> FrameMap = frame.getHashMap();
         BookClubManager bm = BookClubManager.getInstance();
-        counterOfI += 1;
+        counterOfMsgId += 1;
 
         if (type.equals("CONNECT")) {
-            //TODO checking socket
             Boolean userNameExist = false;
             String userName = (String) FrameMap.get("login");
             String password = (String) FrameMap.get("passcode");
@@ -62,12 +62,14 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
                                 connections.send(id, response);
                             } else if (!u.getConnect()) { //logged in already
                                 message.put("message", "User alresdy logged in");
-                                message.put("receipt-id", counterOfI);
+                                String msgToError = frame.getType() +"-";
+                                message.put("receipt-id", msgToError+FrameMap.get("receipt"));
                                 response = new ERROR("ERROR", message);
                                 connections.send(id, response);
                             } else if (!u.getPassword().equals(password)) { //password wrong
                                 message.put("message", "Wrong password");
-                                message.put("receipt-id", counterOfI);
+                                String msgToError = frame.getType() +"-";
+                                message.put("receipt-id",  msgToError+FrameMap.get("receipt"));
                                 response = new ERROR("ERROR", message);
                                 connections.send(id, response);
                             }
@@ -85,7 +87,6 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
         }
 
         if (type.equals("DISCONNECT")) {
-
             terminate = true;
             message.put("receipt-id", FrameMap.get("receipt"));
             response = new RECEIPT("RECEIPT", message);
@@ -93,20 +94,36 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
         }
 
         if (type.equals("SUBSCRIBE")) {
+            if(!bm.getgenres().containsKey(FrameMap.get("destination"))){
+                ConcurrentLinkedQueue<Integer> newQueue = new ConcurrentLinkedQueue<>();
+                newQueue.add(id);
+                bm.getgenres().put(FrameMap.get("destination"), newQueue);
+            }
+            else ((ConcurrentLinkedQueue<Integer>)bm.getgenres().get("destination")).add(id);
             message.put("receipt-id", FrameMap.get("receipt"));
             response = new RECEIPT("RECEIPT", message);
             connections.send(id, response);
         }
-        if ((type.equals("MESSAGE") || (type.equals("SEND")))) {
+
+   /*     if (type.equals("MESSAGE")){
             message.put("subscription", String.valueOf(id));
             message.put("destination", FrameMap.get("destination"));
+            message.put("Message-Id", counterOfMsgId);
             message.put("body", FrameMap.get("body"));
             response = new MESSAGE("MESSAGE", message);
             connections.send(id, response);
         }
-        if (frame.getIsError()) {
-            message.put("receipt-id", FrameMap.get("receipt"));
-            response = new ERROR("RECEIPT", message);
+*/
+         if (type.equals("SEND")) {
+             message.put("destination", FrameMap.get("destination"));
+             message.put("body", FrameMap.get("body"));
+             response = new SEND("SEND", message);
+             connections.send(id, response);
+        }
+
+        if (type.equals("UNSUBSCRIBE")) {
+            message.put("id", String.valueOf(id));
+            response = new UNSUBSCRIBE("UNSUBSCRIBE", message);
             connections.send(id, response);
         }
     }

@@ -10,8 +10,9 @@ public class DISCONNECT extends StompFrame {
 
     public DISCONNECT(String name, HashMap<String, String> message) {
         super(name, message);
-        this.receipt=message.get("receipt");
         this.message=message;
+
+        this.receipt=message.get("receipt");
         this.isError=false;
     }
 

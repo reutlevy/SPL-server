@@ -10,8 +10,9 @@ public class UNSUBSCRIBE extends StompFrame {
 
     public UNSUBSCRIBE(String name, HashMap<String,String> message){
         super(name,message);
-        this.id=message.get("id");
         this.message=message;
+
+        this.id=message.get("id");
         this.isError=false;
     }
 

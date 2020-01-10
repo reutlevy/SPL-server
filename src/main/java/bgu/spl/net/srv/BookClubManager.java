@@ -17,7 +17,7 @@ public class BookClubManager<T> {
     // private HashMap<Integer, ConnectionHandler<T>> clients;
 
     private BookClubManager(){
-        Genres=new ConcurrentHashMap<>();
+        Genres= new ConcurrentHashMap<>();
         logedinusers=new HashMap<Integer,User>();
         existusers=new HashMap<Integer,User>();
     }
