@@ -15,7 +15,6 @@ public class ERROR extends StompFrame {
         this.receiptid=message.get("receipt-id");
         this.body = message.getOrDefault("body", "");
         this.message=message.get("message");
-        this.messages=message;
         this.isError=false;
     }
 

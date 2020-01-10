@@ -33,6 +33,10 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
       counterOfI="";
     }
 
+    public int getId(){
+        return id;
+    }
+
     @Override
     public void process(StompFrame frame){
 
@@ -89,6 +93,8 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
            }
         }
 
+       //User currentUser = new User();
+        HashMap<String,String> add=frame.getHashMap();
 
         if(type.equals("DISCONNECT")){
             terminate=true;

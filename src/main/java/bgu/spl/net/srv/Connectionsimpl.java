@@ -10,11 +10,13 @@ public class Connectionsimpl<T> implements Connections<T> {
     private final HashMap<Integer, ConnectionHandler<T>> clients = new HashMap<>();
    // private HashMap<String, BlockingQueue<Integer>> genres = new HashMap<>();
     //  private final ReadWriteLock lock = new ReentrantReadWriteLock();
-    public BookClubManager bookClubManager;
+    private BookClubManager bookClubManager;
+    private int id=70;
 
     public Connectionsimpl(){
         bookClubManager=BookClubManager.getInstance();
     }
+
 
     public HashMap<Integer, ConnectionHandler<T>> getClients(){
         return clients;
@@ -58,5 +60,10 @@ public class Connectionsimpl<T> implements Connections<T> {
         if (clients.containsKey(connectionId))
         clients.remove(connectionId);
     //    lock.writeLock().unlock();
+    }
+    public int add(ConnectionHandler<T> connection) {
+        int curID = this.id++;
+        clients.put(curID, connection);
+        return curID;
     }
 }

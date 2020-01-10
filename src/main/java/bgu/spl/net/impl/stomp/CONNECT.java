@@ -25,6 +25,22 @@ public class CONNECT extends StompFrame {
         this.isError=false;
     }
 
+  /*  public void process(Connectionsimpl<StompFrame> connections, int id){
+        BookClubManager bm = BookClubManager.getInstance();
+        HashMap<String,String> add=new HashMap<>();
+        // socket chacking
+        if (!bm.getExistusers().contains(id)){
+            add.put()
+            StompFrame error=new ERROR()
+            this.isError=true;
+
+        }
+
+        HashMap mapToInsert = new HashMap()map.put("version",acceptversion));
+        response=new CONNECTED("CONNECTED",message);
+        connections.send(id,response);
+    } */
+
     @Override
     public String getType(){
         return "CONNECT";
