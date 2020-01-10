@@ -24,9 +24,6 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
         this.sock = sock;
         this.encdec = reader;
         this.protocol = protocol;
-        int id = clients.add(this);
-        protocol.start(id,clients);
-        System.out.println("someone connected!");
     }
 
     @Override
@@ -58,5 +55,13 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
 
     @Override
     public void send(T msg) {
+        try {
+            System.out.println("send: " + msg);
+            out.write(encdec.encode(msg));
+            out.flush();
+            if (protocol.shouldTerminate()) close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
