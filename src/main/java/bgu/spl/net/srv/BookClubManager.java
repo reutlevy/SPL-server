@@ -12,14 +12,14 @@ public class BookClubManager<T> {
 
     private Connectionsimpl<StompFrame> connections = null;
     private ConcurrentHashMap<String, ConcurrentLinkedQueue<Integer>> Genres;
-    private LinkedList<Integer> logedinusers;
-    private LinkedList<Integer> existusers;
+    private HashMap<Integer,User> logedinusers;
+    private HashMap<Integer,User> existusers;
     // private HashMap<Integer, ConnectionHandler<T>> clients;
 
     private BookClubManager(){
         Genres=new ConcurrentHashMap<>();
-        logedinusers=new LinkedList<>();
-        existusers=new LinkedList<>();
+        logedinusers=new HashMap<Integer,User>();
+        existusers=new HashMap<Integer,User>();
     }
 
     private static class Holder {
@@ -29,12 +29,16 @@ public class BookClubManager<T> {
         return Holder.dataBase;
     }
 
-    public LinkedList<Integer> getLogedinusers(){
+    public HashMap<Integer,User> getLogedinusers(){
         return logedinusers;
     }
 
-    public LinkedList<Integer> getExistusers(){
+    public HashMap<Integer,User> getExistusers(){
         return existusers;
+    }
+
+    public HashMap<Integer, ConnectionHandler<StompFrame>> getClients(){
+        return connections.getClients();
     }
 
     public ConcurrentHashMap<String,ConcurrentLinkedQueue<Integer>> getgenres(){
@@ -46,14 +50,14 @@ public class BookClubManager<T> {
             this.connections = connections;
     }
 
-    public boolean checklogin(User user){
+   /* public boolean checklogin(User user){
         return logedinusers.contains(user.getConnectionId());
     }
 
-    public boolean checkexist(User user){
-        return existusers.contains(user.getConnectionId());
+    public boolean checkexist(Integer connectionId){
+        return existusers.contains(connections.getConnectionId());
     }
-
+*/
     public void joinReadingClub(User user,String genres){
         if(Genres.containsKey(genres)){
             ConcurrentLinkedQueue<Integer> users=Genres.get(genres);
