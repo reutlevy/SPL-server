@@ -2,7 +2,6 @@ package bgu.spl.net.impl.stomp;
 
 import bgu.spl.net.srv.BookClubManager;
 import bgu.spl.net.srv.Connectionsimpl;
-import bgu.spl.net.srv.DataBase;
 
 import java.util.HashMap;
 
@@ -25,20 +24,7 @@ public class CONNECT extends StompFrame {
         this.passcode=message.get("passcode");
         this.isError=false;
     }
-    public void process(StompFrame frame, Connectionsimpl<StompFrame> connections, int id){
-        BookClubManager bm = BookClubManager.getInstance();
-        // socket chacking
-        if (!bm.getExistusers().contains(id)){
 
-        }
-
-
-
-
-        HashMap mapToInsert = new HashMap()map.put("version",acceptversion));
-        response=new CONNECTED("CONNECTED",message);
-        connections.send(id,response);
-    }
     @Override
     public String getType(){
         return "CONNECT";
@@ -52,5 +38,25 @@ public class CONNECT extends StompFrame {
     @Override
     public Boolean getIsError(){
         return isError;
+    }
+
+    public String getAcceptversion() {
+        return acceptversion;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPasscode() {
+        return passcode;
+    }
+
+    public String getBody() {
+        return body;
     }
 }

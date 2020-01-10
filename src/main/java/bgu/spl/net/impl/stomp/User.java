@@ -1,16 +1,16 @@
 package bgu.spl.net.impl.stomp;
 
-import java.awt.*;
+import java.util.LinkedList;
 
 public class User {
 
     private String userName;
-    private int password;
+    private String password;
     private Boolean isConnect;
-    private List genres = new List();
+    private LinkedList<String> genres;
     private Integer connectionId;
 
-    public User(String userName, int password, Boolean isConnect, List genres, Integer connectionId){
+    public User(String userName, String password, Boolean isConnect, LinkedList<String> genres, Integer connectionId){
         this.userName=userName;
         this.password=password;
         this.isConnect=isConnect;
@@ -22,7 +22,7 @@ public class User {
         return userName;
     }
 
-    public int getPassword() {
+    public String getPassword() {
         return password;
     }
 
@@ -30,7 +30,7 @@ public class User {
         return isConnect;
     }
 
-    public List getGenres() {
+    public LinkedList<String> getGenres() {
         return genres;
     }
 
