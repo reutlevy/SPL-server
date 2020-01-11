@@ -16,7 +16,6 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
 
     private static final int BUFFER_ALLOCATION_SIZE = 1 << 13; //8k
     private static final ConcurrentLinkedQueue<ByteBuffer> BUFFER_POOL = new ConcurrentLinkedQueue<>();
-
     private final StompMessagingProtocol<T> protocol;
     private final MessageEncoderDecoder<T> encdec;
     private final Queue<ByteBuffer> writeQueue = new ConcurrentLinkedQueue<>();
@@ -110,6 +109,14 @@ public class NonBlockingConnectionHandler<T> implements ConnectionHandler<T> {
 
         buff.clear();
         return buff;
+    }
+
+    public StompMessagingProtocol<T> getProtocol() {
+        return protocol;
+    }
+
+    public MessageEncoderDecoder<T> getEncdec() {
+        return encdec;
     }
 
     private static void releaseBuffer(ByteBuffer buff) {

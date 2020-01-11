@@ -48,7 +48,7 @@ public abstract class BaseServer<T> implements Server<T> {
 
                 int id = clients.add(handler);
                 System.out.println("someone connected! - " + id + "    - ip: " + clientSock.getInetAddress().toString().replaceAll("/",""));
-                protocolFactory.get().start(id, clients);
+                handler.getProtocol().start(id, clients);
                 execute(handler);
             }
         } catch (IOException ex) {

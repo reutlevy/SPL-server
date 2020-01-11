@@ -12,6 +12,7 @@ import java.nio.channels.SelectionKey;
 
 public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler<T> {
 
+
     private final StompMessagingProtocol<T> protocol;
     private final MessageEncoderDecoder<T> encdec;
     private final Socket sock;
@@ -63,5 +64,13 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public StompMessagingProtocol<T> getProtocol() {
+        return protocol;
+    }
+
+    public MessageEncoderDecoder<T> getEncdec() {
+        return encdec;
     }
 }
