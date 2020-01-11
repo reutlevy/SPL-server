@@ -36,6 +36,8 @@ public class Connectionsimpl<T> implements Connections<T> {
             }
             return false;
         }
+
+        //TODO always return false
       //  catch (Exception e) {
          //   return false;
      //   }
