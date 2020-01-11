@@ -11,35 +11,24 @@ public class CONNECT extends StompFrame {
     private String host;
     private String login;
     private String passcode;
-    private HashMap<String,String> map;
+    private HashMap<String,String> message;
     private String body;
     private Boolean isError;
+    private String receipt;
 
     public CONNECT(String name, HashMap<String, String> message) {
         super(name, message);
+        this.message=message;
+
         this.body = message.getOrDefault("body", "");
         this.acceptversion=message.get("accept-version");
         this.host=message.get("host");
         this.login=message.get("login");
         this.passcode=message.get("passcode");
+        this.receipt=message.get("receipt");
+
         this.isError=false;
     }
-
-  /*  public void process(Connectionsimpl<StompFrame> connections, int id){
-        BookClubManager bm = BookClubManager.getInstance();
-        HashMap<String,String> add=new HashMap<>();
-        // socket chacking
-        if (!bm.getExistusers().contains(id)){
-            add.put()
-            StompFrame error=new ERROR()
-            this.isError=true;
-
-        }
-
-        HashMap mapToInsert = new HashMap()map.put("version",acceptversion));
-        response=new CONNECTED("CONNECTED",message);
-        connections.send(id,response);
-    } */
 
     @Override
     public String getType(){
@@ -48,7 +37,7 @@ public class CONNECT extends StompFrame {
 
     @Override
     public HashMap getHashMap(){
-        return map;
+        return message;
     }
 
     @Override

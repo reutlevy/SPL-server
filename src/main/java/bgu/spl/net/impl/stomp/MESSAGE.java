@@ -13,11 +13,12 @@ public class MESSAGE extends StompFrame {
 
     public MESSAGE(String name, HashMap<String, String> message) {
         super(name, message);
+        this.message=message;
+
         this.subscription=message.get("subscription");
         this.MessageId=message.get("Message-id");
         this.destination=message.get("destination");
         this.body = message.getOrDefault("body", "");
-        this.message=message;
         this.isError=false;
     }
 

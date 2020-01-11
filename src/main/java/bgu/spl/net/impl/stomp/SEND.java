@@ -11,9 +11,10 @@ public class SEND extends StompFrame {
 
     public SEND(String name, HashMap<String, String> message) {
         super(name, message);
+        this.message=message;
+
         this.body = message.getOrDefault("body", "");
         this.destination=message.get("destination");
-        this.message=message;
         this.isError=false;
     }
 

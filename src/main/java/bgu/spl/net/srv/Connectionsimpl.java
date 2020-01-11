@@ -36,6 +36,8 @@ public class Connectionsimpl<T> implements Connections<T> {
             }
             return false;
         }
+
+        //TODO always return false
       //  catch (Exception e) {
          //   return false;
      //   }
@@ -61,6 +63,8 @@ public class Connectionsimpl<T> implements Connections<T> {
         clients.remove(connectionId);
     //    lock.writeLock().unlock();
     }
+
+
     public int add(ConnectionHandler<T> connection) {
         int curID = this.id++;
         clients.put(curID, connection);
