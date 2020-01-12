@@ -140,12 +140,11 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
 
     public StompFrame getMessage(String destination, String body, String messageid){
         BookClubManager bm = BookClubManager.getInstance();
-        int subscription ;
+        int subscription=0;
         HashMap<String,String> listOfGenres = ((User)bm.getExistusers().get(id)).getGenres();
         for(String key : listOfGenres.keySet()){
             if(listOfGenres.get(key).equals(destination))
                 subscription = Integer.parseInt(key);
-            //TODO else
         }
         message.put("subscription", String.valueOf(subscription));
         message.put("destination", destination);
