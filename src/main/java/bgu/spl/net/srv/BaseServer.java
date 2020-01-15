@@ -32,6 +32,7 @@ public abstract class BaseServer<T> implements Server<T> {
     @Override
     public void serve() {
 
+        System.out.println("server is here");
         try (ServerSocket serverSock = new ServerSocket(port)) {
 			System.out.println("Server started");
 

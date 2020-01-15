@@ -24,7 +24,7 @@ public class StompEncoderDecoder implements MessageEncoderDecoder<StompFrame> {
 
     @Override
     public byte[] encode(StompFrame message) {
-        return (message + "\u0000").getBytes();
+        return (message + "\u0000").getBytes(); //TODO find out about ^@
     }
 
     private void pushByte(byte nextByte) {
