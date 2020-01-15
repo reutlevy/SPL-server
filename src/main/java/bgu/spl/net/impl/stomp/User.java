@@ -8,17 +8,15 @@ public class User {
     private String userName;
     private String password;
     private Boolean isConnect;
-    private LinkedList<String> genres;
-    private HashMap<String,String> inventory;
+    private HashMap<String,String> genres; //subscription id and genre
     private Integer connectionId;
 
-    public User(String userName, String password, Boolean isConnect, LinkedList<String> genres, Integer connectionId, HashMap<String,String> inventory){
+    public User(String userName, String password, Boolean isConnect, HashMap<String,String> genres, Integer connectionId){
         this.userName=userName;
         this.password=password;
         this.isConnect=isConnect;
         this.genres=genres;
         this.connectionId=connectionId;
-        this.inventory=inventory;
     }
 
     public String getUserName() {
@@ -33,7 +31,7 @@ public class User {
         return isConnect;
     }
 
-    public LinkedList<String> getGenres() {
+    public HashMap<String,String> getGenres() {
         return genres;
     }
 
@@ -41,7 +39,15 @@ public class User {
         return connectionId;
     }
 
-    public HashMap<String, String> getInventory() {
-        return inventory;
+    public void setConnect(Boolean connect) {
+        isConnect = connect;
+    }
+
+    public void setConnectionId(Integer connectionId) {
+        this.connectionId = connectionId;
+    }
+
+    public void setGenres(HashMap<String, String> genres) {
+        this.genres = genres;
     }
 }
