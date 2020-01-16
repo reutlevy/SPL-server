@@ -1,6 +1,7 @@
 package bgu.spl.net.impl.stomp;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class DISCONNECT extends StompFrame {
 
@@ -29,5 +30,18 @@ public class DISCONNECT extends StompFrame {
     @Override
     public Boolean getIsError(){
         return isError;
+    }
+
+    public String toString(){
+
+        String answer="DISCONNECTED";
+        Iterator it = message.entrySet().iterator();
+        while (it.hasNext()) {
+            HashMap.Entry pair = (HashMap.Entry)it.next();
+            answer=answer+" "+pair.getKey() + ":" + pair.getValue();
+            //   System.out.println(pair.getKey() + " = " + pair.getValue());
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+        return answer;
     }
 }
