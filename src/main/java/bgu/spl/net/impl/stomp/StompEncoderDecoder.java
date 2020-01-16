@@ -16,6 +16,8 @@ public class StompEncoderDecoder implements MessageEncoderDecoder<StompFrame> {
         //notice that the top 128 ascii characters have the same representation as their utf-8 counterparts
         //this allow us to do the following comparison
         if (nextByte == '\u0000') {
+            System.out.println("decoding");
+            System.out.println(popString().toString());
             return popString();
         }
         pushByte(nextByte);
@@ -24,7 +26,7 @@ public class StompEncoderDecoder implements MessageEncoderDecoder<StompFrame> {
 
     @Override
     public byte[] encode(StompFrame message) {
-        return (message + "\u0000").getBytes(); //TODO find out about ^@
+        return (message.toString() + "\u0000").getBytes(); //TODO find out about ^@
     }
 
     private void pushByte(byte nextByte) {
@@ -39,22 +41,28 @@ public class StompEncoderDecoder implements MessageEncoderDecoder<StompFrame> {
         //notice that we explicitly requesting that the string will be decoded from UTF-8
         //this is not actually required as it is the default encoding in java.
         String translate = new String(bytes, 0, len, StandardCharsets.UTF_8);
+        System.out.println(translate);
         StompFrame result;
         len = 0;
         String lines[] = translate.split("\n");
+
+    //    System.out.println(lines[0]);
         HashMap <String,String> message=new HashMap<>();
-        for (int i=1 ;i<lines.length; i++) {
-            while (lines[i] != "") {
+       for (int i=1 ;i<lines.length; i++) {
+            if (lines[i].contains(":")) {
                 String header[] = lines[i].split(":");
                 message.put(header[0], header[1]);
             }
-            message.put("body",lines[i+1]);
-            break;
+            else {
+                message.put("body", lines[i]);
+            }
         }
       if(lines[0].equals("MESSAGE"))
          result=new MESSAGE(lines[0],message);
-      else if(lines[0].equals("CONNECT"))
-          result=new CONNECT(lines[0],message);
+      else if(lines[0].equals("CONNECT")) {
+          System.out.println("connecting");
+          result = new CONNECT(lines[0], message);
+      }
       else if(lines[0].equals("DISCONNECT"))
           result=new DISCONNECT(lines[0],message);
       else if(lines[0].equals("ERROR"))

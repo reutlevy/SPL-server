@@ -32,7 +32,7 @@ public abstract class StompFrame {
         while (it.hasNext()) {
             HashMap.Entry pair = (HashMap.Entry)it.next();
             answer=answer+" "+pair.getKey() + ":" + pair.getValue();
-            System.out.println(pair.getKey() + " = " + pair.getValue());
+         //   System.out.println(pair.getKey() + " = " + pair.getValue());
             it.remove(); // avoids a ConcurrentModificationException
         }
         return answer;

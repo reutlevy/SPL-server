@@ -38,7 +38,7 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
 
     @Override
     public void process(StompFrame frame) {
-
+        System.out.println("Protocol is process");
         String type = frame.getType();
         HashMap<String, String> FrameMap = frame.getHashMap();
         BookClubManager bm = BookClubManager.getInstance();
