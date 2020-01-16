@@ -16,8 +16,7 @@ public class StompEncoderDecoder implements MessageEncoderDecoder<StompFrame> {
         //notice that the top 128 ascii characters have the same representation as their utf-8 counterparts
         //this allow us to do the following comparison
         if (nextByte == '\u0000') {
-            System.out.println("decoding");
-            System.out.println(popString().toString());
+            System.out.println("end of bytes!!!!"+ popString().toString());
             return popString();
         }
         pushByte(nextByte);
@@ -41,12 +40,13 @@ public class StompEncoderDecoder implements MessageEncoderDecoder<StompFrame> {
         //notice that we explicitly requesting that the string will be decoded from UTF-8
         //this is not actually required as it is the default encoding in java.
         String translate = new String(bytes, 0, len, StandardCharsets.UTF_8);
-        System.out.println(translate);
+       // System.out.println(translate);
         StompFrame result;
         len = 0;
         String lines[] = translate.split("\n");
 
-    //    System.out.println(lines[0]);
+     //  System.out.println("lines in 0 is "+ lines[0]);
+
         HashMap <String,String> message=new HashMap<>();
        for (int i=1 ;i<lines.length; i++) {
             if (lines[i].contains(":")) {
@@ -60,8 +60,9 @@ public class StompEncoderDecoder implements MessageEncoderDecoder<StompFrame> {
       if(lines[0].equals("MESSAGE"))
          result=new MESSAGE(lines[0],message);
       else if(lines[0].equals("CONNECT")) {
-          System.out.println("connecting");
+        //  System.out.println("connecting!!");
           result = new CONNECT(lines[0], message);
+          System.out.println("the result is "+result.toString());
       }
       else if(lines[0].equals("DISCONNECT"))
           result=new DISCONNECT(lines[0],message);
@@ -73,10 +74,8 @@ public class StompEncoderDecoder implements MessageEncoderDecoder<StompFrame> {
           result=new SEND(lines[0],message);
       else if(lines[0].equals("SUBSCRIBE"))
           result=new SUBSCRIBE(lines[0],message);
-      else if(lines[0].equals("UNSUBSCRIBE"))
+      else //if(lines[0].equals("UNSUBSCRIBE"))
           result=new UNSUBSCRIBE(lines[0],message);
-      else
-        result=null;
 
       return result;
     }

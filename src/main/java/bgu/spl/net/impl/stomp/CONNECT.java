@@ -4,6 +4,7 @@ import bgu.spl.net.srv.BookClubManager;
 import bgu.spl.net.srv.Connectionsimpl;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class CONNECT extends StompFrame {
 
@@ -63,5 +64,18 @@ public class CONNECT extends StompFrame {
 
     public String getBody() {
         return body;
+    }
+
+    public String toString(){
+
+        String answer="CONNECT";
+        Iterator it = message.entrySet().iterator();
+        while (it.hasNext()) {
+            HashMap.Entry pair = (HashMap.Entry)it.next();
+            answer=answer+" "+pair.getKey() + ":" + pair.getValue();
+            //   System.out.println(pair.getKey() + " = " + pair.getValue());
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+        return answer;
     }
 }
