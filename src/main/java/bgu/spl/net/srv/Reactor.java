@@ -12,7 +12,9 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 public class Reactor<T> implements Server<T> {
@@ -41,16 +43,16 @@ public class Reactor<T> implements Server<T> {
 
     @Override
     public void serve() {
-	selectorThread = Thread.currentThread();
+        selectorThread = Thread.currentThread();
         try (Selector selector = Selector.open();
-                ServerSocketChannel serverSock = ServerSocketChannel.open()) {
+             ServerSocketChannel serverSock = ServerSocketChannel.open()) {
 
             this.selector = selector; //just to be able to close
 
             serverSock.bind(new InetSocketAddress(port));
             serverSock.configureBlocking(false);
             serverSock.register(selector, SelectionKey.OP_ACCEPT);
-			System.out.println("Server started-Reactor");
+            System.out.println("Server started-Reactor");
 
             serverSock.bind(new InetSocketAddress(port));
             serverSock.configureBlocking(false);
@@ -109,15 +111,17 @@ public class Reactor<T> implements Server<T> {
                 clientChan,
                 this);
 
-         int id = clients.add(handler);
-         handler.getProtocol().start(id,clients);
-         System.out.println("someone connected!");
-         clientChan.register(selector, SelectionKey.OP_READ, handler);
+        pool.submit(handler, () -> {
+            int id = clients.add(handler);
+            handler.getProtocol().start(id, clients);
+        });
+
+        System.out.println("someone connected!");
+        clientChan.register(selector, SelectionKey.OP_READ, handler);
     }
 
     private void handleReadWrite(SelectionKey key) {
-        @SuppressWarnings("unchecked")
-        final NonBlockingConnectionHandler<T> handler = (NonBlockingConnectionHandler<T>) key.attachment();
+        @SuppressWarnings("unchecked") final NonBlockingConnectionHandler<T> handler = (NonBlockingConnectionHandler<T>) key.attachment();
 
         if (key.isReadable()) {
             Runnable task = handler.continueRead();
@@ -126,7 +130,7 @@ public class Reactor<T> implements Server<T> {
             }
         }
 
-	    if (key.isValid() && key.isWritable()) {
+        if (key.isValid() && key.isWritable()) {
             handler.continueWrite();
         }
     }

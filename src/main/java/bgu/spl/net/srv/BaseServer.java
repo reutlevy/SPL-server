@@ -7,6 +7,7 @@ import bgu.spl.net.api.StompMessagingProtocol;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 public abstract class BaseServer<T> implements Server<T> {
@@ -50,6 +51,7 @@ public abstract class BaseServer<T> implements Server<T> {
                 int id = clients.add(handler);
                 System.out.println("someone connected! - " + id + "    - ip: " + clientSock.getInetAddress().toString().replaceAll("/",""));
                 handler.getProtocol().start(id, clients);
+
                 execute(handler);
             }
         } catch (IOException ex) {

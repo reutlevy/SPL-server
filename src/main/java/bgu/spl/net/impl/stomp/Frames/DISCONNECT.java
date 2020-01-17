@@ -1,17 +1,25 @@
-package bgu.spl.net.impl.stomp;
+package bgu.spl.net.impl.stomp.Frames;
 
+import bgu.spl.net.impl.stomp.StompFrame;
+
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DISCONNECT extends StompFrame {
 
     private String receipt;
-    private HashMap<String,String> message;
+    //private ConcurrentHashMap<String,String> message;
     private Boolean isError;
 
-    public DISCONNECT(String name, HashMap<String, String> message) {
-        super(name, message);
-        this.message=message;
+    public DISCONNECT(ConcurrentHashMap<String, String> message) {
+        super();
+        headers=new ConcurrentHashMap<>(message);
 
         this.receipt=message.get("receipt");
         this.isError=false;
@@ -22,26 +30,19 @@ public class DISCONNECT extends StompFrame {
         return "DISCONNECT";
     }
 
-    @Override
-    public HashMap getHashMap(){
-        return message;
-    }
-
-    @Override
-    public Boolean getIsError(){
-        return isError;
-    }
-
+/*
     public String toString(){
 
         String answer="DISCONNECTED";
         Iterator it = message.entrySet().iterator();
         while (it.hasNext()) {
-            HashMap.Entry pair = (HashMap.Entry)it.next();
+            ConcurrentHashMap.Entry pair = (ConcurrentHashMap.Entry)it.next();
             answer=answer+" "+pair.getKey() + ":" + pair.getValue();
             //   System.out.println(pair.getKey() + " = " + pair.getValue());
             it.remove(); // avoids a ConcurrentModificationException
         }
         return answer;
     }
+
+ */
 }

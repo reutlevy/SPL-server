@@ -3,8 +3,14 @@ package bgu.spl.net.srv;
 import bgu.spl.net.impl.stomp.StompFrame;
 import bgu.spl.net.impl.stomp.User;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -12,11 +18,11 @@ public class BookClubManager<T> {
 
     private Connectionsimpl<StompFrame> connections = null;
     private ConcurrentHashMap<String, LinkedList<Integer>> Genres;
-    private HashMap<Integer,User> existusers;
+    private ConcurrentHashMap<Integer,User> existusers;
 
     private BookClubManager(){
         Genres= new ConcurrentHashMap<>();
-        existusers=new HashMap<>();
+        existusers=new ConcurrentHashMap<>();
     }
 
     private static class Holder {
@@ -26,7 +32,7 @@ public class BookClubManager<T> {
         return Holder.dataBase;
     }
 
-    public HashMap<Integer,User> getExistusers(){
+    public ConcurrentHashMap<Integer,User> getExistusers(){
         return existusers;
     }
 

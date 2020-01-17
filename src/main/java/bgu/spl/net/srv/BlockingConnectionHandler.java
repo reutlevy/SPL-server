@@ -3,6 +3,7 @@ package bgu.spl.net.srv;
 import bgu.spl.net.api.MessageEncoderDecoder;
 import bgu.spl.net.api.MessagingProtocol;
 import bgu.spl.net.api.StompMessagingProtocol;
+import bgu.spl.net.impl.stomp.StompFrame;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -38,7 +39,6 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
            // System.out.println("almost here");
             while (!protocol.shouldTerminate() && connected && (read = in.read()) >= 0) {
                 T nextMessage = encdec.decodeNextByte((byte) read);
-                System.out.println("next message is "+nextMessage);
                 if (nextMessage != null) {
                     System.out.println("protocol is processing!!!");
                     protocol.process(nextMessage);

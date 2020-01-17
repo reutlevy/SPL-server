@@ -1,40 +1,54 @@
 package bgu.spl.net.impl.stomp;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class StompFrame {
 
     private String type;
-    private HashMap messages;
+    protected ConcurrentHashMap<String, String> headers;
 
-    public StompFrame(String type, HashMap<String,String> message){
-        this.type=type;
-        this.messages=message;
+    public void setHeaders(ConcurrentHashMap<String, String> headers1)
+    {
+        this.headers = new ConcurrentHashMap<>();
+        for(String key : headers1.keySet())
+        {
+            this.headers.put(key, headers1.get(key));
+            //System.out.println(key + "   ddddddddddd   " + headers1.get(key));
+        }
+//        headers=new ConcurrentHashMap<>();
+//        this.headers = headers1;
     }
 
-    public String getType(){
+    public String getType() {
         return type;
     }
 
-    public HashMap getHashMap(){
-        return messages;
+    public ConcurrentHashMap<String, String> getHashMap() {
+        return headers;
     }
 
-    public Boolean getIsError(){
-        return false;
-    }
+    public String toString() {
 
-    public String toString(){
-
-        String answer=type;
-        Iterator it = messages.entrySet().iterator();
+        String answer = this.getClass().getSimpleName() + "\n";
+        Iterator it = headers.entrySet().iterator();
         while (it.hasNext()) {
-            HashMap.Entry pair = (HashMap.Entry)it.next();
-            answer=answer+" "+pair.getKey() + ":" + pair.getValue();
-         //   System.out.println(pair.getKey() + " = " + pair.getValue());
+            ConcurrentHashMap.Entry pair = (ConcurrentHashMap.Entry) it.next();
+            answer = answer + " " + pair.getKey() + ":" + pair.getValue() + "\n";
+            //   System.out.println(pair.getKey() + " = " + pair.getValue());
             it.remove(); // avoids a ConcurrentModificationException
         }
+
+        answer = answer.replace("body", "\n");
+        if (!headers.containsKey("body"))
+            answer += "\n";
+
         return answer;
     }
 }

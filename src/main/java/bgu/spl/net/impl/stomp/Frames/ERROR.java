@@ -1,18 +1,26 @@
-package bgu.spl.net.impl.stomp;
+package bgu.spl.net.impl.stomp.Frames;
 
+import bgu.spl.net.impl.stomp.StompFrame;
+
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ERROR extends StompFrame {
 
     private String receiptid;
     private String body;
     private String message;
-    private HashMap<String,String> messages;
     private Boolean isError;
 
-    public ERROR(String name, HashMap<String, String> message) {
-        super(name, message);
+    public ERROR(ConcurrentHashMap<String, String> message) {
+        super();
+        headers=new ConcurrentHashMap<>(message);
         this.receiptid=message.get("receipt-id");
         this.body = message.getOrDefault("body", "");
         this.message=message.get("message");
@@ -24,26 +32,19 @@ public class ERROR extends StompFrame {
         return "ERROR";
     }
 
-    @Override
-    public HashMap getHashMap(){
-        return messages;
-    }
-
-    @Override
-    public Boolean getIsError(){
-        return isError;
-    }
-
+/*
     public String toString(){
 
         String answer="ERROR";
         Iterator it = messages.entrySet().iterator();
         while (it.hasNext()) {
-            HashMap.Entry pair = (HashMap.Entry)it.next();
+            ConcurrentHashMap.Entry pair = (ConcurrentHashMap.Entry)it.next();
             answer=answer+" "+pair.getKey() + ":" + pair.getValue();
             //   System.out.println(pair.getKey() + " = " + pair.getValue());
             it.remove(); // avoids a ConcurrentModificationException
         }
         return answer;
     }
+
+ */
 }
