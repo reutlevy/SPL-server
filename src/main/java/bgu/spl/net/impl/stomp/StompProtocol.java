@@ -41,7 +41,8 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
 
 
         if (type.equals("CONNECT")) {
-            System.out.println("--------------------------------------");
+            //System.out.println("-------------------recognize CONNECTED" +
+            //        "-------------------");
             Boolean userNameExist = false;
             String userName = FrameMap.get("login");
             System.out.println(FrameMap.get("login"));
@@ -91,7 +92,14 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
                 ConcurrentHashMap<String,String> genres = new ConcurrentHashMap<>();
                 User newUser = new User(userName, password, true, genres, id);
                 existUsersMap.put(id, newUser);
-                newUser.setConnect(true);
+                //newUser.setConnect(true);
+                //System.out.println("12345677890" + newUser.getUserName());
+                ConcurrentHashMap<String, String> outHeaders = new ConcurrentHashMap<>();
+                outHeaders.put("accept-version", FrameMap.get("accept-version"));
+                response = new CONNECTED(outHeaders);
+                System.out.println("the response isss "+ response.toString());
+                response.setHeaders(outHeaders);
+                connections.send(id, response);
             }
         }
 
