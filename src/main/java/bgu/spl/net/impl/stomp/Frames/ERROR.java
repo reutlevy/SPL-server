@@ -19,8 +19,7 @@ public class ERROR extends StompFrame {
     private Boolean isError;
 
     public ERROR(ConcurrentHashMap<String, String> message) {
-        super(message);
-        headers=new ConcurrentHashMap<>(message);
+        super("ERROR",message);
         this.receiptid=message.get("receipt-id");
         this.body = message.getOrDefault("body", "");
         this.message=message.get("message");

@@ -18,8 +18,7 @@ public class SEND extends StompFrame {
     private Boolean isError;
 
     public SEND(ConcurrentHashMap<String, String> message) {
-        super(message);
-        headers=new ConcurrentHashMap<>(message);
+        super("SEND",message);
 
         this.body = message.getOrDefault("body", "");
         this.destination=message.get("destination");

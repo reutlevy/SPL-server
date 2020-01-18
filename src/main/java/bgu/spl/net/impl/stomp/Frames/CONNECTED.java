@@ -16,10 +16,8 @@ public class CONNECTED extends StompFrame {
     private String version;
 
     public CONNECTED(ConcurrentHashMap<String, String> message) {
-        super(message);
-        headers=new ConcurrentHashMap<>();
-        System.out.println("the result of the headers issss "+message);
-        //this.map=message;
+        super("CONNECTED",message);
+  //      System.out.println("the result of the headers issss "+message);
         this.version=message.get("version");
         this.isError=false;
     }

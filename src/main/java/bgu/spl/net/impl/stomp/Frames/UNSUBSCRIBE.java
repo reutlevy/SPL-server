@@ -15,8 +15,7 @@ public class UNSUBSCRIBE extends StompFrame {
     private Boolean isError;
 
     public UNSUBSCRIBE(ConcurrentHashMap<String,String> message){
-        super(message);
-        headers=new ConcurrentHashMap<>(message);
+        super("UNSUBSCRIBE",message);
         this.id=message.get("id");
         this.isError=false;
     }
