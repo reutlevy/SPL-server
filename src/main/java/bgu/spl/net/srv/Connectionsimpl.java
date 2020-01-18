@@ -1,5 +1,6 @@
 package bgu.spl.net.srv;
 
+import bgu.spl.net.impl.stomp.StompFrame;
 import bgu.spl.net.impl.stomp.User;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,10 +30,11 @@ public class Connectionsimpl<T> implements Connections<T> {
     public boolean send(int connectionId, T msg) {
     //    try {
           //  lock.readLock().lock();
+        System.out.println("sending the messageeee "+msg);
         boolean answer=false;
         if(this.getClients().containsKey(connectionId)) {
             ConnectionHandler<T> handler = clients.get(connectionId);
-            handler.send((T) msg);
+            handler.send(msg);
             answer = true;
         }
         return answer;

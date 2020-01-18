@@ -20,7 +20,7 @@ public class MESSAGE extends StompFrame {
     private Boolean isError;
 
     public MESSAGE(ConcurrentHashMap<String, String> message) {
-        super();
+        super(message);
         headers=new ConcurrentHashMap<>(message);
         this.subscription=message.get("subscription");
         this.MessageId=message.get("Message-id");

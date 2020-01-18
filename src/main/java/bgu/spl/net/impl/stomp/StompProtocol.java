@@ -45,9 +45,9 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
             //        "-------------------");
             Boolean userNameExist = false;
             String userName = FrameMap.get("login");
-            System.out.println(FrameMap.get("login"));
+         //   System.out.println("the user name issss "+ FrameMap.get("login"));
             String password = FrameMap.get("passcode");
-            System.out.println(FrameMap.get("login"));
+         //   System.out.println("the user password issss "+FrameMap.get("passcode"));
             ConcurrentHashMap<Integer, User> existUsersMap = bm.getExistusers();
             for (User u : existUsersMap.values()) {
                 while (!userNameExist) {
@@ -95,10 +95,10 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
                 //newUser.setConnect(true);
                 //System.out.println("12345677890" + newUser.getUserName());
                 ConcurrentHashMap<String, String> outHeaders = new ConcurrentHashMap<>();
-                outHeaders.put("accept-version", FrameMap.get("accept-version"));
+                outHeaders.put("accept-version!!", FrameMap.get("accept-version"));
                 response = new CONNECTED(outHeaders);
-                System.out.println("the response isss "+ response.toString());
-                response.setHeaders(outHeaders);
+             //   response.setHeaders(outHeaders);
+                System.out.println("the response isssssssssss "+ response);
                 connections.send(id, response);
             }
         }

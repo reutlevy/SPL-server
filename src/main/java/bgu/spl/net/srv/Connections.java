@@ -1,5 +1,7 @@
 package bgu.spl.net.srv;
 
+import bgu.spl.net.impl.stomp.StompFrame;
+
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.HashMap;

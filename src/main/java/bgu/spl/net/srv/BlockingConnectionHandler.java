@@ -60,7 +60,7 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     @Override
     public void send(T msg) {
         try {
-            System.out.println ("send: " + msg);
+            System.out.println ("senddd: " + msg);
             out.write(encdec.encode(msg));
             out.flush();
             if (protocol.shouldTerminate()) close();
