@@ -1,16 +1,24 @@
 package bgu.spl.net.srv;
 
+import bgu.spl.net.impl.stomp.StompFrame;
 import bgu.spl.net.impl.stomp.User;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Connectionsimpl<T> implements Connections<T> {
 
-    private HashMap<Integer, ConnectionHandler<T>> clients = new HashMap<>();
+    private ConcurrentHashMap<Integer, ConnectionHandler<T>> clients = new ConcurrentHashMap<>();
     private BookClubManager bookClubManager;
     private int connectionId=70;
 
@@ -22,10 +30,11 @@ public class Connectionsimpl<T> implements Connections<T> {
     public boolean send(int connectionId, T msg) {
     //    try {
           //  lock.readLock().lock();
+        System.out.println("sending the messageeee "+msg);
         boolean answer=false;
         if(this.getClients().containsKey(connectionId)) {
             ConnectionHandler<T> handler = clients.get(connectionId);
-            handler.send((T) msg);
+            handler.send(msg);
             answer = true;
         }
         return answer;
@@ -51,12 +60,12 @@ public class Connectionsimpl<T> implements Connections<T> {
     public void disconnect(int connectionId) {
         //try {
     //    lock.writeLock().lock();
-        HashMap<String,String> genres = ((User)bookClubManager.getExistusers().get(connectionId)).getGenres();
+        ConcurrentHashMap<String,String> genres = ((User)bookClubManager.getExistusers().get(connectionId)).getGenres();
         for(String s: genres.values()){
             //TODO
             ((LinkedList<Integer>)bookClubManager.getgenres().get(s)).remove(connectionId);
         }
-        HashMap<String,String> newList = new HashMap<>();
+        ConcurrentHashMap<String,String> newList = new ConcurrentHashMap<>();
         ((User) bookClubManager.getExistusers().get(connectionId)).setGenres(newList);
         ((User) bookClubManager.getExistusers().get(bookClubManager)).setConnect(false);
         if (clients.containsKey(connectionId))
@@ -70,7 +79,7 @@ public class Connectionsimpl<T> implements Connections<T> {
         return curID;
     }
 
-    public HashMap<Integer, ConnectionHandler<T>> getClients(){
+    public ConcurrentHashMap<Integer, ConnectionHandler<T>> getClients(){
         return clients;
     }
 }

@@ -5,6 +5,7 @@ import bgu.spl.net.api.MessagingProtocol;
 import bgu.spl.net.api.StompMessagingProtocol;
 
 import java.io.Closeable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 public interface Server<T> extends Closeable {

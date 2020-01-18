@@ -1,9 +1,17 @@
-package bgu.spl.net.impl.stomp;
+package bgu.spl.net.impl.stomp.Frames;
 
+import bgu.spl.net.impl.stomp.StompFrame;
 import bgu.spl.net.srv.BookClubManager;
 import bgu.spl.net.srv.Connectionsimpl;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CONNECT extends StompFrame {
 
@@ -11,14 +19,14 @@ public class CONNECT extends StompFrame {
     private String host;
     private String login;
     private String passcode;
-    private HashMap<String,String> message;
+ //   private ConcurrentHashMap<String,String> message;
     private String body;
     private Boolean isError;
     private String receipt;
 
-    public CONNECT(String name, HashMap<String, String> message) {
-        super(name, message);
-        this.message=message;
+    public CONNECT(ConcurrentHashMap<String, String> message) {
+        super(message);
+        headers=new ConcurrentHashMap<>(message);
 
         this.body = message.getOrDefault("body", "");
         this.acceptversion=message.get("accept-version");
@@ -35,15 +43,6 @@ public class CONNECT extends StompFrame {
         return "CONNECT";
     }
 
-    @Override
-    public HashMap getHashMap(){
-        return message;
-    }
-
-    @Override
-    public Boolean getIsError(){
-        return isError;
-    }
 
     public String getAcceptversion() {
         return acceptversion;
@@ -64,4 +63,5 @@ public class CONNECT extends StompFrame {
     public String getBody() {
         return body;
     }
+
 }

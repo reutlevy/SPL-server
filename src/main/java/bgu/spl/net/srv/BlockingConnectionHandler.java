@@ -3,6 +3,7 @@ package bgu.spl.net.srv;
 import bgu.spl.net.api.MessageEncoderDecoder;
 import bgu.spl.net.api.MessagingProtocol;
 import bgu.spl.net.api.StompMessagingProtocol;
+import bgu.spl.net.impl.stomp.StompFrame;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -29,15 +30,17 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
 
     @Override
     public void run() {
+        System.out.println("conection handler is here");
         try (Socket sock = this.sock) { //just for automatic closing
             int read;
-
+            System.out.println("trying to read a message");
             in = new BufferedInputStream(sock.getInputStream());
             out = new BufferedOutputStream(sock.getOutputStream());
-
+           // System.out.println("almost here");
             while (!protocol.shouldTerminate() && connected && (read = in.read()) >= 0) {
                 T nextMessage = encdec.decodeNextByte((byte) read);
                 if (nextMessage != null) {
+                    System.out.println("protocol is processing!!!");
                     protocol.process(nextMessage);
                     if (protocol.shouldTerminate()) close();
                 }
@@ -57,7 +60,7 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     @Override
     public void send(T msg) {
         try {
-            System.out.println ("send: " + msg);
+            System.out.println ("senddd: " + msg);
             out.write(encdec.encode(msg));
             out.flush();
             if (protocol.shouldTerminate()) close();

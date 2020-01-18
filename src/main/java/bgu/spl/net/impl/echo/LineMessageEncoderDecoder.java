@@ -2,6 +2,7 @@ package bgu.spl.net.impl.echo;
 
 import bgu.spl.net.api.MessageEncoderDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Arrays;
 
 public class LineMessageEncoderDecoder implements MessageEncoderDecoder<String> {

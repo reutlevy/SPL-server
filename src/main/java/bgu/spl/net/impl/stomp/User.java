@@ -1,17 +1,21 @@
 package bgu.spl.net.impl.stomp;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class User {
 
     private String userName;
     private String password;
     private Boolean isConnect;
-    private HashMap<String,String> genres; //subscription id and genre
+    private ConcurrentHashMap<String,String> genres; //subscription id and genre
     private Integer connectionId;
 
-    public User(String userName, String password, Boolean isConnect, HashMap<String,String> genres, Integer connectionId){
+    public User(String userName, String password, Boolean isConnect, ConcurrentHashMap<String,String> genres, Integer connectionId){
         this.userName=userName;
         this.password=password;
         this.isConnect=isConnect;
@@ -31,7 +35,7 @@ public class User {
         return isConnect;
     }
 
-    public HashMap<String,String> getGenres() {
+    public ConcurrentHashMap<String,String> getGenres() {
         return genres;
     }
 
@@ -47,7 +51,7 @@ public class User {
         this.connectionId = connectionId;
     }
 
-    public void setGenres(HashMap<String, String> genres) {
+    public void setGenres(ConcurrentHashMap<String, String> genres) {
         this.genres = genres;
     }
 }

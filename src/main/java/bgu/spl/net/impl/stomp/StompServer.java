@@ -13,18 +13,23 @@ public class StompServer {
 
     public static void main(String[] args) {
 
+        if (args[0].equals("tpc")) {
+            Server<StompFrame> threadPerClient = Server.threadPerClient(
+                    7777,
+                    () -> new StompProtocol(),
+                    () -> new StompEncoderDecoder());
+            threadPerClient.serve();
 
-      Server.threadPerClient(
-               7777, //port
-                StompProtocol::new, //protocol factory
-               StompEncoderDecoder::new //message encoder decoder factory
-     ).serve();
+        } else if (args[0].equals("reactor")) { //Reactor
+            Server<StompFrame> reactor = Server.reactor(
+                    2,
+                    7777,
+                    () -> new StompProtocol(),
+                    () -> new StompEncoderDecoder());
+            reactor.serve();
 
-      Server.reactor(
-                Runtime.getRuntime().availableProcessors(),
-                7777, //port
-                 StompProtocol::new, //protocol factory
-                StompEncoderDecoder::new //message encoder decoder factory
-        ).serve();
+        } else {
+            System.out.println("wrong args[0]");
+        }
     }
 }
