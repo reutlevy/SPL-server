@@ -41,11 +41,6 @@ public abstract class StompFrame {
     }
 
     public ConcurrentHashMap<String, String> getHashMap() {
-        for (String s : headers.keySet()) {
-            System.out.println("THE KEY IS" + s);
-            System.out.println("THE VALUE IS" + headers.get(s));
-
-        }
         return headers;
     }
 

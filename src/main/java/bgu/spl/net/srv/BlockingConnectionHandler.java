@@ -33,15 +33,16 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
         System.out.println("conection handler is here");
         try (Socket sock = this.sock) { //just for automatic closing
             int read;
-            System.out.println("trying to read a message");
+         //   System.out.println("trying to read a message");
             in = new BufferedInputStream(sock.getInputStream());
             out = new BufferedOutputStream(sock.getOutputStream());
            // System.out.println("almost here");
             while (!protocol.shouldTerminate() && connected && (read = in.read()) >= 0) {
                 T nextMessage = encdec.decodeNextByte((byte) read);
                 if (nextMessage != null) {
-                    System.out.println("protocol is processing!!!");
+                    System.out.println("the next message  =\n "+nextMessage);
                     protocol.process(nextMessage);
+
                     if (protocol.shouldTerminate()) close();
                 }
             }

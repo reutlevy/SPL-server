@@ -32,24 +32,6 @@ public class StompEncoderDecoder implements MessageEncoderDecoder<StompFrame> {
 
     @Override
     public byte[] encode(StompFrame message) {
-
-        //region debug
-        byte[] bytes1 = (message.toString() + "\u0000").getBytes();
-        System.out.println("------------------send : -------------------");
-        for (byte aByte : bytes1) {
-            System.out.print((int) aByte + ", ");
-        }
-        System.out.println();
-        for (byte aByte : bytes1) {
-            System.out.print(b2s(aByte, true) + ", ");
-        }
-        System.out.println();
-        for (byte aByte : bytes1) {
-            System.out.print(b2s(aByte, false));
-        }
-        System.out.println();
-        System.out.println("______-------------------________");
-        //endregion
         return (message.toString() + "\u0000").getBytes(); //TODO find out about ^@
     }
 
@@ -64,23 +46,6 @@ public class StompEncoderDecoder implements MessageEncoderDecoder<StompFrame> {
     private StompFrame popString() {
         String translate = new String(bytes, 0, len, StandardCharsets.UTF_8);
         translate=translate.replaceAll("\n ","\n");
-        //region debug
-        byte[] bytes1 = translate.getBytes();
-        System.out.println("------------------get  : -------------------");
-        for (byte aByte : bytes1) {
-            System.out.print((int) aByte + ", ");
-        }
-        System.out.println();
-        for (byte aByte : bytes1) {
-            System.out.print(b2s(aByte, true) + ", ");
-        }
-        System.out.println();
-        for (byte aByte : bytes1) {
-            System.out.print(b2s(aByte, false));
-        }
-        System.out.println();
-        System.out.println("______-------------------________");
-        //endregion
 
         // System.out.println(translate);
         //region initialize
