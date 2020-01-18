@@ -32,7 +32,8 @@ public class StompEncoderDecoder implements MessageEncoderDecoder<StompFrame> {
 
     @Override
     public byte[] encode(StompFrame message) {
-        return (message.toString() + "\u0000").getBytes(); //TODO find out about ^@
+      //  System.out.println("before the message senddd "+message.toString());
+        return (message.toString()).getBytes(); //TODO find out about ^@
     }
 
     private void pushByte(byte nextByte) {
@@ -45,52 +46,66 @@ public class StompEncoderDecoder implements MessageEncoderDecoder<StompFrame> {
 
     private StompFrame popString() {
         String translate = new String(bytes, 0, len, StandardCharsets.UTF_8);
-        translate=translate.replaceAll("\n ","\n");
-
+      //  System.out.println("the line issssssss"+translate);
         // System.out.println(translate);
         //region initialize
         StompFrame result=null;
+        String body="";
         len = 0;
         String[] lines = translate.split("\n");
 
+        int start=0;
+        while (lines[start].isEmpty()){
+            start++;
+        }
+        String type=lines[start];
+   //     System.out.println("the type isssssss "+lines[start]);
         ConcurrentHashMap<String, String> message1 = new ConcurrentHashMap<>();
-        //endregion
+        for(String line:lines){
+            System.out.println(line);
+        }
 
-        for (int i = 1; i < lines.length; i++) {
+        for (int i = start+1; i < lines.length; i++) {
             if (lines[i].contains(":")) {
                 String[] header = lines[i].split(":");
                 message1.put(header[0], header[1]);
+                System.out.println(header[0]+ header[1]);
             } else {
-                message1.put("body", lines[i]);
+                if(!lines[i].isEmpty()) {
+                    System.out.println("the body issssss "+lines[i]);
+                     body = lines[i];
+                 //   result.setBody(body);
+                }
             }
         }
 
         ConcurrentHashMap<String, String> message = new ConcurrentHashMap<>(message1);
         int size0=message.size();
-        switch (lines[0]) {
+        switch (type) {
             case "MESSAGE":
-                result = new MESSAGE(message);
+                result = new MESSAGE(message,body);
                 break;
             case "CONNECT":
-                result = new CONNECT(message);
+                result = new CONNECT(message,body);
                 break;
             case "DISCONNECT":
-                result = new DISCONNECT(message);
+                result = new DISCONNECT(message,body);
                 break;
             case "ERROR":
-                result = new ERROR(message);
+                result = new ERROR(message,body);
                 break;
             case "RECEIPT":
-                result = new RECEIPT(message);
+                result = new RECEIPT(message,body);
                 break;
             case "SEND":
-                result = new SEND(message);
+                result = new SEND(message,body);
                 break;
             case "SUBSCRIBE":
-                result = new SUBSCRIBE(message);
+                result = new SUBSCRIBE(message,body);
+                System.out.println("----- recognize subscribe");
                 break;
             case "UNSUBSCRIBE":
-                result = new UNSUBSCRIBE(message);
+                result = new UNSUBSCRIBE(message,body);
                 break;
             default:
                 return null;
@@ -99,7 +114,7 @@ public class StompEncoderDecoder implements MessageEncoderDecoder<StompFrame> {
         result.setHeaders(message1);
         int size2=message.size();
         int size3 = result.headers.size();
-        System.out.println("AAAAAAAAAA: "+size0+", "+size1 + ", " + size2 + "," + size3);
+    //    System.out.println("AAAAAAAAAA: "+size0+", "+size1 + ", " + size2 + "," + size3);
         //System.out.println("the result issss" + result.toString());
         return result;
     }

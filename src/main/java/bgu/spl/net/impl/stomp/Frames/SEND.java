@@ -17,10 +17,10 @@ public class SEND extends StompFrame {
     private String body;
     private Boolean isError;
 
-    public SEND(ConcurrentHashMap<String, String> message) {
-        super("SEND",message);
+    public SEND(ConcurrentHashMap<String, String> message,String body) {
+        super("SEND",message, body);
 
-        this.body = message.getOrDefault("body", "");
+   //     this.body = message.getOrDefault("body", "");
         this.destination=message.get("destination");
         this.isError=false;
     }

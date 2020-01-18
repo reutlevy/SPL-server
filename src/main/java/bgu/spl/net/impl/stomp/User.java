@@ -54,4 +54,19 @@ public class User {
     public void setGenres(ConcurrentHashMap<String, String> genres) {
         this.genres = genres;
     }
+
+    @Override
+    public String toString() {
+        String output = "\tconId: " + connectionId + "\n";
+        output += "\tname: " + userName + "\n";
+        output += "\tpass: " + password + "\n";
+        output += "\tlogged: " + isConnect + "\n";
+        output += "\tsubscription: ";
+        for(String c : getGenres().keySet())
+        {
+            output += getGenres().get(c) + ", ";
+        }
+        output += "\n";
+        return output;
+    }
 }

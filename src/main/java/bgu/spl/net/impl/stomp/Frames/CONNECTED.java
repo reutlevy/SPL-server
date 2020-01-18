@@ -15,8 +15,8 @@ public class CONNECTED extends StompFrame {
     private Boolean isError;
     private String version;
 
-    public CONNECTED(ConcurrentHashMap<String, String> message) {
-        super("CONNECTED",message);
+    public CONNECTED(ConcurrentHashMap<String, String> message,String body) {
+        super("CONNECTED",message,body);
   //      System.out.println("the result of the headers issss "+message);
         this.version=message.get("version");
         this.isError=false;

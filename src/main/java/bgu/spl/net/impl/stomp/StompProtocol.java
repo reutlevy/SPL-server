@@ -20,6 +20,7 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
     private StompFrame response;
     private BookClubManager db;
     private int counterOfMsgId;
+    private  int counterOfConnectReceipt;
 
     @Override
     public void start(int connectionId, Connections<StompFrame> connections) {
@@ -28,21 +29,23 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
         db = BookClubManager.getInstance();
         db.initialConnections((Connectionsimpl<StompFrame>) connections);
         counterOfMsgId = 0;
+        counterOfConnectReceipt = 0 ;
     }
 
     @Override
     public void process(StompFrame frame) {
-        System.out.println("Protocol is process");
+       // System.out.println("Protocol is process");
         String type = frame.getType();
         ConcurrentHashMap<String, String> FrameMap = frame.getHashMap();
-        System.out.println(frame.getHashMap());
+      //  System.out.println(frame.getHashMap());
         BookClubManager bm = BookClubManager.getInstance();
         counterOfMsgId ++;
+        counterOfConnectReceipt ++;
 
 
         if (type.equals("CONNECT")) {
-            System.out.println("-------------------recognize CONNECTED" +
-                   "-------------------");
+        //    System.out.println("-------------------recognize CONNECTED" +
+         //          "-------------------");
             Boolean userNameExist = false;
             String userName = FrameMap.get("login");
          //   System.out.println("the user name issss "+ FrameMap.get("login"));
@@ -55,10 +58,10 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
                         userNameExist = true;
                         if (u.getConnect()) { //logged in already
                             ConcurrentHashMap<String,String> message=new ConcurrentHashMap<>();
-                            message.put("message", "User alresdy logged in");
+                            message.put("message", "User already logged in");
                             String msgToError = frame.getType() + "-";
-                            message.put("receipt-id", msgToError + FrameMap.get("receipt"));
-                            response = new ERROR(message);
+                            message.put("receipt-id", msgToError + counterOfConnectReceipt);
+                            response = new ERROR(message,msgToError);
                             response.setHeaders(message);
                             connections.send(id, response);
                         }
@@ -66,22 +69,23 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
                             ConcurrentHashMap<String,String> message=new ConcurrentHashMap<>();
                             message.put("message", "Wrong password");
                             String msgToError = frame.getType() + "-";
-                            message.put("receipt-id", msgToError + FrameMap.get("receipt"));
-                            response = new ERROR(message);
+                            message.put("receipt-id", msgToError + counterOfConnectReceipt);
+                            response = new ERROR(message,"");
                             response.setHeaders(message);
                             connections.send(id, response);
                         }
                         else{ //password ok and not logged in
                             int oldId = u.getConnectionId();
-                            System.out.println("we are connected");
+                       //     System.out.println("we are connected");
                             User dupU = u;
                             u.setConnect(true);
                             u.setConnectionId(id);
                             bm.getExistusers().remove(oldId);
                             bm.getExistusers().put(id,dupU);
+                   //         connections.getClients().put(id,)
                             ConcurrentHashMap<String,String> message=new ConcurrentHashMap<>();
                             message.put("version", FrameMap.get("accept-version"));
-                            response = new CONNECTED(message);
+                            response = new CONNECTED(message,"");
                             response.setHeaders(message);
                             connections.send(id, response);
                         }
@@ -96,11 +100,11 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
                 //System.out.println("12345677890" + newUser.getUserName());
                 ConcurrentHashMap<String, String> outHeaders = new ConcurrentHashMap<>();
                 outHeaders.put("accept-version", FrameMap.get("accept-version"));
-                System.out.println(FrameMap.get("accept-version"));
-                System.out.println("the out headers are----"+outHeaders);
-                StompFrame response1=new CONNECTED(outHeaders);
+       //         System.out.println(FrameMap.get("accept-version"));
+        //        System.out.println("the out headers are----"+outHeaders);
+                StompFrame response1=new CONNECTED(outHeaders,"");
                 //response1.setHeaders(outHeaders);
-                System.out.println("the response isssssssssss "+ response1);
+        //        System.out.println("the response isssssssssss "+ response1);
             //    System.out.println("the headers offffff----"+response1.getHashMap().get("accept-version"));
                 connections.send(id, response1);
             }
@@ -109,33 +113,46 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
         if (type.equals("DISCONNECT")) {
             ConcurrentHashMap<String,String> message=new ConcurrentHashMap<>();
             message.put("receipt-id", FrameMap.get("receipt"));
-            response = new RECEIPT(message);
+            response = new RECEIPT(message,"");
             connections.send(id, response);
             terminate = true;
         }
 
         if (type.equals("SUBSCRIBE")) {
+            System.out.println("-------SUBSCRIBE");
             if(!bm.getgenres().containsKey(FrameMap.get("destination"))){
+                System.out.println("genre is not exist");
                 LinkedList<Integer> newList = new LinkedList<>();
                 newList.add(id);
                 bm.getgenres().put(FrameMap.get("destination"), newList);
+                System.out.println("user subscribed to the genre");
                 ((User)bm.getExistusers().get(id)).getGenres().put(FrameMap.get("id"),FrameMap.get("destination"));
+                System.out.println("the genre is in the user list");
             }
             else {
                 ((LinkedList<Integer>)bm.getgenres().get("destination")).add(id);
+                System.out.println("the genre exist");
+                LinkedList<Integer> list = (LinkedList<Integer>) bm.getgenres().get("destination");
+                for(Integer id : list){
+                    System.out.println(id);
+                }
             }
             ((User)bm.getExistusers().get(id)).getGenres().put(FrameMap.get("id"),FrameMap.get("destination"));
 
             ConcurrentHashMap<String,String> message=new ConcurrentHashMap<>();
+            System.out.println("created hashmap");
             message.put("receipt-id", FrameMap.get("receipt"));
-            response = new RECEIPT(message);
+            response = new RECEIPT(message,"");
             connections.send(id, response);
         }
 
         if (type.equals("SEND")) {
             counterOfMsgId++;
             String destination = FrameMap.get("destination");
-            String body = FrameMap.get("body");
+            String body=frame.getBody();
+            System.out.println(" the body isss "+body);
+        //    String body = FrameMap.get("body");
+            System.out.println("in here");
             response = this.getMessage(destination, body, String.valueOf(counterOfMsgId));
             connections.send(FrameMap.get("destination"), response);
         }
@@ -147,7 +164,7 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
             ((LinkedList<Integer>)bm.getgenres().get(genresToDeleteFrom)).remove(id);
             ConcurrentHashMap<String,String> message=new ConcurrentHashMap<>();
             message.put("receipt-id", FrameMap.get("receipt"));
-            response = new RECEIPT(message);
+            response = new RECEIPT(message,"");
             connections.send(id, response);
         }
 
@@ -163,15 +180,16 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
         int subscription=0;
         ConcurrentHashMap<String,String> listOfGenres = ((User)bm.getExistusers().get(id)).getGenres();
         for(String key : listOfGenres.keySet()){
-            if(listOfGenres.get(key).equals(destination))
-                subscription = Integer.parseInt(key);
+            System.out.println("hey");
+            if(key.equals(destination))
+                subscription = Integer.parseInt(listOfGenres.get(key));
         }
         ConcurrentHashMap<String,String> message=new ConcurrentHashMap<>();
         message.put("subscription", String.valueOf(subscription));
         message.put("destination", destination);
-        message.put("body", body);
+     //   message.put("body", body);
         message.put("Message-id", messageid);
-        return new MESSAGE(message);
+        return new MESSAGE(message, body);
     }
 }
 

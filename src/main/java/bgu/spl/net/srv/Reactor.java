@@ -116,7 +116,7 @@ public class Reactor<T> implements Server<T> {
             handler.getProtocol().start(id, clients);
         });
 
-        System.out.println("someone connected!");
+     //   System.out.println("someone connected!");
         clientChan.register(selector, SelectionKey.OP_READ, handler);
     }
 

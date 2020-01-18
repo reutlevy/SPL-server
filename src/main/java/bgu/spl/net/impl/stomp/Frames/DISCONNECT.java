@@ -17,8 +17,8 @@ public class DISCONNECT extends StompFrame {
     private ConcurrentHashMap<String,String> message;
     private Boolean isError;
 
-    public DISCONNECT(ConcurrentHashMap<String, String> message) {
-        super("DISCONNECT",message);
+    public DISCONNECT(ConcurrentHashMap<String, String> message, String body) {
+        super("DISCONNECT",message,body);
 
         this.receipt=message.get("receipt");
         this.isError=false;

@@ -18,10 +18,10 @@ public class ERROR extends StompFrame {
     private String message;
     private Boolean isError;
 
-    public ERROR(ConcurrentHashMap<String, String> message) {
-        super("ERROR",message);
+    public ERROR(ConcurrentHashMap<String, String> message, String body) {
+        super("ERROR",message, body);
         this.receiptid=message.get("receipt-id");
-        this.body = message.getOrDefault("body", "");
+      //  this.body = message.getOrDefault("body", "");
         this.message=message.get("message");
         this.isError=false;
     }

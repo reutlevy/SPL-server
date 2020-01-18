@@ -16,7 +16,6 @@ public abstract class BaseServer<T> implements Server<T> {
     private final Supplier<StompMessagingProtocol<T>> protocolFactory;
     private final Supplier<MessageEncoderDecoder<T>> encdecFactory;
     private ServerSocket sock;
-    private final Connectionsimpl<T> clients;
 
     public BaseServer(
             int port,
@@ -27,7 +26,6 @@ public abstract class BaseServer<T> implements Server<T> {
         this.protocolFactory = protocolFactory;
         this.encdecFactory = encdecFactory;
 		this.sock = null;
-        this.clients = new Connectionsimpl<>();
     }
 
     @Override
@@ -48,9 +46,6 @@ public abstract class BaseServer<T> implements Server<T> {
                         encdecFactory.get(),
                         protocolFactory.get());
 
-                int id = clients.add(handler);
-                System.out.println("someone connected! - " + id + "    - ip: " + clientSock.getInetAddress().toString().replaceAll("/",""));
-                handler.getProtocol().start(id, clients);
 
                 execute(handler);
             }

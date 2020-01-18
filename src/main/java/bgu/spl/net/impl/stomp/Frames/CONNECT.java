@@ -24,10 +24,10 @@ public class CONNECT extends StompFrame {
     private Boolean isError;
     private String receipt;
 
-    public CONNECT(ConcurrentHashMap<String, String> message) {
-        super("CONNECT",message);
+    public CONNECT(ConcurrentHashMap<String, String> message,String body) {
+        super("CONNECT",message,body);
 
-        this.body = message.getOrDefault("body", "");
+    //    this.body = message.getOrDefault("body", "");
         this.acceptversion=message.get("accept-version");
         this.host=message.get("host");
         this.login=message.get("login");
@@ -41,7 +41,6 @@ public class CONNECT extends StompFrame {
     public String getType(){
         return "CONNECT";
     }
-
 
     public String getAcceptversion() {
         return acceptversion;

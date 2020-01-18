@@ -20,31 +20,38 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     private BufferedInputStream in;
     private BufferedOutputStream out;
     private volatile boolean connected = true;
-    private final Connectionsimpl<T> clients = new Connectionsimpl<>();
+    private static Connectionsimpl connectionsimpl;
 
     public BlockingConnectionHandler(Socket sock, MessageEncoderDecoder<T> reader, StompMessagingProtocol<T> protocol) {
         this.sock = sock;
         this.encdec = reader;
         this.protocol = protocol;
+        connectionsimpl=Connectionsimpl.getInstance();
     }
 
     @Override
     public void run() {
-        System.out.println("conection handler is here");
+    //    System.out.println("conection handler is here");
         try (Socket sock = this.sock) { //just for automatic closing
             int read;
          //   System.out.println("trying to read a message");
             in = new BufferedInputStream(sock.getInputStream());
             out = new BufferedOutputStream(sock.getOutputStream());
-           // System.out.println("almost here");
+
+            int id = connectionsimpl.add(this);
+            this.getProtocol().start(id, connectionsimpl);
+
             while (!protocol.shouldTerminate() && connected && (read = in.read()) >= 0) {
                 T nextMessage = encdec.decodeNextByte((byte) read);
+            //    System.out.println("there is a message");
                 if (nextMessage != null) {
-                    System.out.println("the next message  =\n "+nextMessage);
+                    System.out.println("____NEXT_MSG____\n"+nextMessage);
                     protocol.process(nextMessage);
+                    System.out.println(connectionsimpl.toString());
 
                     if (protocol.shouldTerminate()) close();
                 }
+          //      else System.out.println("the message is null");
             }
 
         } catch (IOException ex) {
@@ -61,7 +68,7 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     @Override
     public void send(T msg) {
         try {
-            System.out.println ("senddd: " + msg);
+            System.out.println ("SEND MSG: \n" + msg);
             out.write(encdec.encode(msg));
             out.flush();
             if (protocol.shouldTerminate()) close();

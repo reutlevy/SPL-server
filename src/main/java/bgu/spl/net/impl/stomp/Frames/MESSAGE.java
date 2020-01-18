@@ -19,12 +19,12 @@ public class MESSAGE extends StompFrame {
     private String body;
     private Boolean isError;
 
-    public MESSAGE(ConcurrentHashMap<String, String> message) {
-        super("MESSAGE",message);
+    public MESSAGE(ConcurrentHashMap<String, String> message, String body) {
+        super("MESSAGE",message, body);
         this.subscription=message.get("subscription");
         this.MessageId=message.get("Message-id");
         this.destination=message.get("destination");
-        this.body = message.getOrDefault("body", "");
+   //     this.body = message.getOrDefault("body", "");
         this.isError=false;
     }
 

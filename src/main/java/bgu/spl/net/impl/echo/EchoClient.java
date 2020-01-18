@@ -25,14 +25,14 @@ public class EchoClient {
                 BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
                 BufferedWriter out = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()))) {
 
-            System.out.println("sending message to server");
+         //   System.out.println("sending message to server");
             out.write(args[1]);
             out.newLine();
             out.flush();
 
-            System.out.println("awaiting response");
+           // System.out.println("awaiting response");
             String line = in.readLine();
-            System.out.println("message from server: " + line);
+           // System.out.println("message from server: " + line);
         }
     }
 }

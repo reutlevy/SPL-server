@@ -14,8 +14,8 @@ public class RECEIPT extends StompFrame {
     private String receiptid;
     private Boolean isError;
 
-    public RECEIPT(ConcurrentHashMap<String, String> message) {
-        super("RECEIPT",message);
+    public RECEIPT(ConcurrentHashMap<String, String> message, String body) {
+        super("RECEIPT",message,body);
         this.receiptid=message.get("receipt-id");
         this.isError=false;
     }

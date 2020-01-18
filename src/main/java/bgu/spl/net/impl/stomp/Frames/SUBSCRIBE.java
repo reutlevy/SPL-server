@@ -16,8 +16,8 @@ public class SUBSCRIBE extends StompFrame {
     private String receipt;
     private Boolean isError;
 
-    public SUBSCRIBE(ConcurrentHashMap<String, String> message) {
-        super("SUBSCRIBE",message);
+    public SUBSCRIBE(ConcurrentHashMap<String, String> message, String body) {
+        super("SUBSCRIBE",message, body);
 
         this.destination = message.get("destination");
         this.id = message.get("id");
