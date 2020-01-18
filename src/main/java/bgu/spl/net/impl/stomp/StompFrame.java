@@ -21,7 +21,7 @@ public abstract class StompFrame {
         for(String key : headers1.keySet())
         {
             this.headers.put(key, headers1.get(key));
-            System.out.println(key + "   ddddddddddd   " + headers1.get(key));
+           // System.out.println(key + "   ddddddddddd   " + headers1.get(key));
         }
     }
 
@@ -31,7 +31,6 @@ public abstract class StompFrame {
         for(String key : headers1.keySet())
         {
             this.headers.put(key, headers1.get(key));
-            //System.out.println(key + "   ddddddddddd   " + headers1.get(key));
         }
 //        headers=new ConcurrentHashMap<>();
 //        this.headers = headers1;
@@ -50,7 +49,7 @@ public abstract class StompFrame {
         return headers;
     }
 
-    public String toString() {
+   /* public String toString() {
 
         String answer = this.type;
         System.out.println("the headersssss are"+ headers);
@@ -67,5 +66,15 @@ public abstract class StompFrame {
             answer += "\n";
 
         return answer;
+    } */
+
+    @Override
+    public String toString() {
+        String output = this.type + "\n";
+        for (String key : headers.keySet()) {
+            output += key + ":" + headers.get(key) + "\n";
+        }
+       // output = '\n' + '\u0000';
+        return output;
     }
 }

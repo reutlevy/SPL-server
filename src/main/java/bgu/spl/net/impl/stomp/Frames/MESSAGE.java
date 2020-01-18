@@ -21,7 +21,6 @@ public class MESSAGE extends StompFrame {
 
     public MESSAGE(ConcurrentHashMap<String, String> message) {
         super("MESSAGE",message);
-        headers=new ConcurrentHashMap<>(message);
         this.subscription=message.get("subscription");
         this.MessageId=message.get("Message-id");
         this.destination=message.get("destination");

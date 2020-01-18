@@ -20,7 +20,6 @@ public class ERROR extends StompFrame {
 
     public ERROR(ConcurrentHashMap<String, String> message) {
         super("ERROR",message);
-        headers=new ConcurrentHashMap<>(message);
         this.receiptid=message.get("receipt-id");
         this.body = message.getOrDefault("body", "");
         this.message=message.get("message");

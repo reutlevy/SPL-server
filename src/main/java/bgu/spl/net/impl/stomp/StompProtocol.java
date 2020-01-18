@@ -101,7 +101,7 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
                 StompFrame response1=new CONNECTED(outHeaders);
                 //response1.setHeaders(outHeaders);
                 System.out.println("the response isssssssssss "+ response1);
-                System.out.println("the headers offffff----"+response1.getHashMap().get("accept-version"));
+            //    System.out.println("the headers offffff----"+response1.getHashMap().get("accept-version"));
                 connections.send(id, response1);
             }
         }

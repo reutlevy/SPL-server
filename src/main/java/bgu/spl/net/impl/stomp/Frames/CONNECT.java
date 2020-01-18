@@ -26,7 +26,6 @@ public class CONNECT extends StompFrame {
 
     public CONNECT(ConcurrentHashMap<String, String> message) {
         super("CONNECT",message);
-        headers=new ConcurrentHashMap<>(message);
 
         this.body = message.getOrDefault("body", "");
         this.acceptversion=message.get("accept-version");
