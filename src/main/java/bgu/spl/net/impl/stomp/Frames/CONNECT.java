@@ -19,13 +19,13 @@ public class CONNECT extends StompFrame {
     private String host;
     private String login;
     private String passcode;
- //   private ConcurrentHashMap<String,String> message;
+   private ConcurrentHashMap<String,String> message;
     private String body;
     private Boolean isError;
     private String receipt;
 
     public CONNECT(ConcurrentHashMap<String, String> message) {
-        super(message);
+        super("CONNECT",message);
         headers=new ConcurrentHashMap<>(message);
 
         this.body = message.getOrDefault("body", "");

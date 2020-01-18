@@ -30,7 +30,7 @@ public class Connectionsimpl<T> implements Connections<T> {
     public boolean send(int connectionId, T msg) {
     //    try {
           //  lock.readLock().lock();
-        System.out.println("sending the messageeee "+msg);
+        System.out.println("sending the messageeee "+msg.toString());
         boolean answer=false;
         if(this.getClients().containsKey(connectionId)) {
             ConnectionHandler<T> handler = clients.get(connectionId);

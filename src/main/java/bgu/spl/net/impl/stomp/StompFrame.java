@@ -14,8 +14,15 @@ public abstract class StompFrame {
     private String type;
     protected ConcurrentHashMap<String, String> headers;
 
-    public StompFrame(ConcurrentHashMap<String, String> headers1){
-       this.headers=new ConcurrentHashMap<>(headers1);
+    public StompFrame(String type1,ConcurrentHashMap<String, String> headers1){
+
+        this.type=type1;
+        this.headers = new ConcurrentHashMap<>();
+        for(String key : headers1.keySet())
+        {
+            this.headers.put(key, headers1.get(key));
+            System.out.println(key + "   ddddddddddd   " + headers1.get(key));
+        }
     }
 
     public void setHeaders(ConcurrentHashMap<String, String> headers1)
@@ -35,12 +42,18 @@ public abstract class StompFrame {
     }
 
     public ConcurrentHashMap<String, String> getHashMap() {
+        for (String s : headers.keySet()) {
+            System.out.println("THE KEY IS" + s);
+            System.out.println("THE VALUE IS" + headers.get(s));
+
+        }
         return headers;
     }
 
     public String toString() {
 
-        String answer = this.getClass().getSimpleName()+"\n";
+        String answer = this.type;
+        System.out.println("the headersssss are"+ headers);
         Iterator it = headers.entrySet().iterator();
         while (it.hasNext()) {
             ConcurrentHashMap.Entry pair = (ConcurrentHashMap.Entry) it.next();

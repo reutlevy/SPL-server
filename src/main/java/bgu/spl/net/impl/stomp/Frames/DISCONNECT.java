@@ -14,11 +14,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DISCONNECT extends StompFrame {
 
     private String receipt;
-    //private ConcurrentHashMap<String,String> message;
+    private ConcurrentHashMap<String,String> message;
     private Boolean isError;
 
     public DISCONNECT(ConcurrentHashMap<String, String> message) {
-        super(message);
+        super("DISCONNECT",message);
         headers=new ConcurrentHashMap<>(message);
 
         this.receipt=message.get("receipt");
