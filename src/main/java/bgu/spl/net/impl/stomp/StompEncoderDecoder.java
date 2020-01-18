@@ -53,7 +53,10 @@ public class StompEncoderDecoder implements MessageEncoderDecoder<StompFrame> {
         String body="";
         len = 0;
         String[] lines = translate.split("\n");
-
+        for (int i=0; i<lines.length; i++){
+            System.out.println(i);
+            System.out.println(lines[i]);
+        }
         int start=0;
         while (lines[start].isEmpty()){
             start++;
