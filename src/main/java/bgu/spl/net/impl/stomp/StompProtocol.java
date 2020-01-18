@@ -57,14 +57,14 @@ public class StompProtocol implements StompMessagingProtocol<StompFrame> {
                         if (u.getConnect()) { //logged in already
                             message.put("message", "User alresdy logged in");
                             String msgToError = frame.getType() + "-";
-                            message.put("receipt-id", msgToError + FrameMap.get("receipt"));
+                            message.put("receipt-id", msgToError +"-"+ FrameMap.get("receipt"));
                             response = new ERROR("ERROR", message);
                             connections.send(id, response);
                         }
                         else if (!u.getPassword().equals(password)) { //password wrong
                             message.put("message", "Wrong password");
                             String msgToError = frame.getType() + "-";
-                            message.put("receipt-id", msgToError + FrameMap.get("receipt"));
+                            message.put("receipt-id", msgToError + "-"+FrameMap.get("receipt"));
                             response = new ERROR("ERROR", message);
                             connections.send(id, response);
                         }
